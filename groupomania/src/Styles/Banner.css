@@ -1,0 +1,21 @@
+.lmj-banner {
+  color: rgb(0, 0, 0);
+  text-align: left;
+  border-bottom: solid 3px rgb(255, 0, 0);
+}
+.g-logo {
+  width: 350px;
+}
+
+.lmj-title {
+  padding-left: 32px;
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 300px;
+  margin-left: 40%;
+}

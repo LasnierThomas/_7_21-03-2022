@@ -1,0 +1,71 @@
+.log-container {
+  margin: 0 auto;
+  display: grid;
+}
+
+.connection-form {
+  display: flex;
+  flex-direction: column;
+
+  border: none;
+  background: rgb(253, 213, 213);
+
+  min-width: 490px;
+  width: 40%;
+  text-align: center;
+  margin: 100px auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.form-container {
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.form {
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.inputTxt {
+  text-align: center;
+  border: solid rgb(253, 213, 213) 2px;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.controlPassword {
+  color: red;
+  font-weight: bold;
+}
+
+.submit {
+  background-color: rgba(255, 14, 14, 0.719);
+  border-radius: 20px;
+  border: solid 2px rgb(253, 213, 213);
+  padding: 10px;
+  font-weight: bold;
+}
+.submit:active {
+  transition: all 0s ease-in-out;
+  transform: scale(0.8);
+  box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
+  opacity: 0.9;
+}
+
+li {
+  list-style: none;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: 0.2s;
+}
+
+.active-btn:hover {
+  background: rgb(255, 14, 14, 0.719);
+}
