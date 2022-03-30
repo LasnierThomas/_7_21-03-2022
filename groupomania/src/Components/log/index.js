@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Banner from '../Banner';
 import '../../Styles/Login.css';
-import logo2 from '../../Assets/logo2.png';
+
 
 const Log = (props) => {
     const [signUpModal, setSignUpModal] = useState(props.SignUp);
@@ -21,9 +20,7 @@ const Log = (props) => {
 
     return (
         <div >
-            <Banner>
-                <img src={logo2} alt='logo-groupomania' className='g-logo'></img>
-            </Banner>
+
             <div className="connection-form">
                 <div className="form-container">
                     <ul>

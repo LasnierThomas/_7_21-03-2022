@@ -1,0 +1,40 @@
+.block-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background: rgb(253, 213, 213);
+  min-width: 490px;
+  width: 40%;
+  text-align: center;
+  margin: 200px auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 14, 14, 0.719);
+  border-radius: 20px;
+  border: solid 2px rgb(253, 213, 213);
+  font-size: 20px;
+  margin: 15px 0;
+  padding: 16px;
+  font-weight: 550;
+  width: 260px;
+}
+
+.button:active {
+  transition: all 0s ease-in-out;
+  transform: scale(0.8);
+  box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 530px) {
+  .block-parent {
+    min-width: 0px;
+    width: 80%;
+  }
+}

@@ -19,3 +19,43 @@
   width: 300px;
   margin-left: 40%;
 }
+
+.power {
+  position: absolute;
+  top: 3%;
+  right: 10%;
+  color: rgb(255, 14, 14, 0.719);
+}
+.power:active {
+  transition: all 0s ease-in-out;
+  transform: scale(0.8);
+  opacity: 0.9;
+}
+
+.profil {
+  position: absolute;
+  top: 3%;
+  right: 16%;
+  color: rgb(255, 14, 14, 0.719);
+}
+
+.profil:active {
+  transition: all 0s ease-in-out;
+  transform: scale(0.8);
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 530px) {
+  .power {
+    right: 10px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .power {
+    top: 1%;
+  }
+  .profil {
+    top: 5%;
+    right: 10px;
+  }
+}

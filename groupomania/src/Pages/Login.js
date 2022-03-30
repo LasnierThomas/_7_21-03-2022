@@ -5,11 +5,10 @@ import { UidContext } from '../Components/AppContext';
 const Login = () => {
     const uid = useContext(UidContext);
     console.log(uid);
-    console.log('loginPage');
     return (
         <div className='profil-page'>
-            {false ? (
-                <h2>update</h2>
+            {uid ? (
+                <Log />
             ) : (
                 <div className='log-container'>
                     <Log signIn={false} signUp={true} />

@@ -69,3 +69,19 @@ li {
 .active-btn:hover {
   background: rgb(255, 14, 14, 0.719);
 }
+
+@media screen and (max-width: 530px) {
+  .connection-form {
+    min-width: 0px;
+    width: 80%;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ul {
+    padding-bottom: 10px;
+  }
+}
