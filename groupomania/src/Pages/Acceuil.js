@@ -2,15 +2,26 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/Acceuil.css';
 
-const Acceuil = () => {
 
-    let navigate = useNavigate();
+const Acceuil = () => {
+    const navigate = useNavigate();
+    let handleClick = () => {
+        navigate('/detente');
+    }
+    const handleClick1 = () => {
+        navigate('/article');
+    }
+    const handleClick2 = () => {
+        navigate('/chat');
+    }
+
     return (
         <div className='block-parent'>
-            <button className='button' onClick={() => { navigate.push('/Detente') }}>Détente</button>
-            <button className='button' onClick={() => { navigate.push('/Artcile') }}>Articles </button>
-            <button className='button' onClick={() => { navigate.push('/Chat') }}>Chat</button>
+            <button type='button' className='button' onClick={handleClick}>Détente</button>
+            <button type='button' className='button' onClick={handleClick1}>Articles </button>
+            <button type='button' className='button' onClick={handleClick2}>Chat</button>
         </div>
+
     );
 };
 

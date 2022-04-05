@@ -1,13 +1,11 @@
 import React from 'react';
 
-
-const Chat = () => {
+const Detente = () => {
     return (
         <div>
-
-            Chat
+            Detente
         </div>
     );
 };
 
-export default Chat;
+export default Detente;
