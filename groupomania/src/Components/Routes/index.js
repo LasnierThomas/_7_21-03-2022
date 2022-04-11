@@ -6,6 +6,8 @@ import Acceuil from '../../Pages/Acceuil';
 import Profil from '../../Pages/Profil';
 import Detente from '../../Pages/Detente';
 import Article from '../../Pages/Article';
+import NewPost from '../../Pages/NewPost';
+import PostWrite from '../../Pages/PostWrite';
 import Banner from '../Banner';
 import logo2 from '../../Assets/logo2.png';
 import { FaPowerOff } from 'react-icons/fa';
@@ -33,6 +35,8 @@ const index = () => {
                     <Route path='/chat' element={<Chat />} />
                     <Route path='/detente' element={<Detente />} />
                     <Route path='/article' element={<Article />} />
+                    <Route path='/newpost' element={<NewPost />} />
+                    <Route path='/post' element={<PostWrite />} />
 
                 </Routes>
             </BrowserRouter>

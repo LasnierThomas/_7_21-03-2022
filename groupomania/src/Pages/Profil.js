@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../Styles/Profil.css';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../Components/AppContext';
 
 
 const Profil = () => {
+
+    const user = useContext(UserContext);
     const navigate = useNavigate();
     const handleClick = () => {
         navigate('/Acceuil');
@@ -15,8 +18,8 @@ const Profil = () => {
             <h3>Information du profil</h3>
             <div className='block-child'>
                 <div className='informations'>
-                    <p>Pseudo: <span id='pseudo'></span></p>
-                    <p>Email: <span id='email'></span></p>
+                    <p>Pseudo: {user.pseudo}</p>
+                    <p>Email: {user.email}</p>
                 </div>
                 <button className='button-profil' onClick={handleClick}>Retour acceuil</button>
                 <button className='button-profil'>Supprimer votre compte</button>
