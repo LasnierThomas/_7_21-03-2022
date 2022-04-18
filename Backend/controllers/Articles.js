@@ -57,5 +57,6 @@ exports.deleteArticles = (req, res, next) => {
             if (newArticle.userId !== req.auth.userId) {
                 return res.status(401).json({ error: new error('Requête non autorisé') });
             }
+
         })
 };

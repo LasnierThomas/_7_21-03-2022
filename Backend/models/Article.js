@@ -1,4 +1,7 @@
-const artcilesSchema = Schema({
+const mysql = require('mysql');
+
+
+const articlesSchema = mysql.Schema({
 
     userId: { type: String, required: true },
     title: { type: String, required: true },
@@ -6,3 +9,5 @@ const artcilesSchema = Schema({
     description: { type: String, required: true },
 
 });
+
+module.exports = mysql.model('Article', articlesSchema);
