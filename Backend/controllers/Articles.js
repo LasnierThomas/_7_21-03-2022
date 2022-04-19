@@ -1,14 +1,24 @@
-const Articles = require('../models/Article');
 const fs = require('fs');
 
+
+// exports.Articles = {
+//     userId: String,
+//     title: String,
+//     imageURL: String,
+//     description: String,
+// }
+
+var Articles = {};
+
+
 exports.getAllArticles = (req, res, next) => {
-    Articles.find()
+    Articles.find() // TODO: créer une requête SQL
         .then(articles => res.status(200).json(articles))
         .catch(error => res.status(400).json({ error }));
 };
 
 exports.getOneArticles = (req, res, next) => {
-    Articles.find({ _id: req.params.id })
+    Articles.find({ _id: req.params.id }) // TODO: créer une requête SQL
         .then(articles => res.status(200).json(articles))
         .catch(error => res.status(400).json({ error }));
 };
@@ -16,7 +26,7 @@ exports.getOneArticles = (req, res, next) => {
 exports.createArticles = (res, req, next) => {
     const ArticlesObject = JSON.parse(req.body.article);
     delete ArticlesObject._id;
-    const newArticle = new Articles({
+    const newArticle = new Articles({  // TODO: créer une requête SQL
         ...ArticlesObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
@@ -31,14 +41,14 @@ exports.modifyArtciles = (res, req, next) => {
             ...JSON.parse(req.body.article),
             imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body };
-    Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id })
+    Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id }) // TODO: créer une requête SQL
         .then(() => res.status(200).json({ message: 'Artcile modifié' }))
         .catch(error => res.status(400).json({ error }));
 
 };
 
 exports.deleteArticles = (req, res, next) => {
-    Articles.findOne({ _id: req.params.id })
+    Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
         .then(newArticle => {
             const filename = newArticle.imageURL.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
@@ -49,7 +59,7 @@ exports.deleteArticles = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 
-    Articles.findOne({ _id: req.paramas.id })
+    Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
         .then((newArticle) => {
             if (!newArticle) {
                 return res.status(404).json({ error: new error('article non trouvé') });

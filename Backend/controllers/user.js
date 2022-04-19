@@ -1,29 +1,49 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
+// TODO: supprimer le code ci dessous
+// const userSchema = {
+//     email: { type: String, require: true, unique: true },
+//     password: { type: String, require: true },
+// };
+
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                pseudo: req.body.pseudo,
-                password: hash,
-                controlPassword: hash
-            });
-            user.save()
-                .then(() => res.status(201).json({ message: 'Utilisateur crée' }))
-                .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(400).json({ error }));
+    // bcrypt.hash(req.body.password, 10)
+    //     .then(hash => {
+    //         // TODO: Envoyer une requete en SQL (Créer un nouvel utilisateur)
+    //         const user = new User({
+    //             email: req.body.email,
+    //             pseudo: req.body.pseudo,
+    //             password: hash,
+    //             controlPassword: hash
+    //         });
+    //         // TODO: Vérifier que le traitement est correct et renvoyer le résultat
+    //         user.save()
+    //             .then(() => res.status(201).json({ message: 'Utilisateur crée' }))
+    //             .catch(error => res.status(400).json({ error }));
+    //     })
+    //     .catch(error => res.status(400).json({ error }));
+};
+
+exports.testLogin = (req, res, next) => {
+    return {
+        id: 1,
+        email: "aurelien@aurelien.aurelien",
+        pseudo: "aurelien",
+        password: "mypwd",
+    }
 };
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if (!user) {
+    connection.query(`SELECT * FROM User LIMIT 1 WHERE email=${req.body.email}`,
+        function (error, results, fields) {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+            if (!results) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé' });
             }
+            user = results[0];
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
@@ -40,13 +60,12 @@ exports.login = (req, res, next) => {
                 })
                 .catch(error => res.status(400).json({ error }));
         })
-        .catch(error => res.status(500).json({ error }));
 };
 
-exports.deleteUser = (req, res, next) => {
-    User.findOne({ _id: req.params.id })
+// exports.deleteUser = (req, res, next) => {
+//     User.findOne({ _id: req.params.id })
 
-        .then(() => res.status(200).json({ message: 'User Supprimé' }))
-        .catch(error => res.status(400).json({ error }))
-};
-        .catch (error => res.status(500).json({ error }));
+//         .then(() => res.status(200).json({ message: 'User Supprimé' }))
+//         .catch(error => res.status(400).json({ error }))
+//         .catch(error => res.status(500).json({ error }));
+// };
