@@ -42,3 +42,11 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
+
+exports.deleteUser = (req, res, next) => {
+    User.findOne({ _id: req.params.id })
+
+        .then(() => res.status(200).json({ message: 'User Supprimé' }))
+        .catch(error => res.status(400).json({ error }))
+};
+        .catch (error => res.status(500).json({ error }));

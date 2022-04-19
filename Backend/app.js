@@ -9,7 +9,7 @@ const articlesRoutes = require('./routes/Articles');
 
 const connection = mysql.createConnection({
     // Get ProxySQL unix domain socket path from the environment
-    socketPath: process.env["mysql_b6c35bbb-ab66-49c8-8820-a850fcdcb6fb"],
+    socketPath: process.env["ba60kwwwfjxiptetke7u"],
     // Get the database user from the environment
     user: process.env["ubeery0kfyx7joet"],
     // Get the database password from the environment
