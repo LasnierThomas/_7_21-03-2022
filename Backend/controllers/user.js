@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const connection = require('../sql/dbconnection');
 
 // TODO: supprimer le code ci dessous
 // const userSchema = {
@@ -26,12 +27,17 @@ exports.signup = (req, res, next) => {
 };
 
 exports.testLogin = (req, res, next) => {
-    return {
-        id: 1,
-        email: "aurelien@aurelien.aurelien",
-        pseudo: "aurelien",
-        password: "mypwd",
-    }
+    connection.query(`SELECT * FROM User WHERE email="aurelien@aurelien.aurelien" LIMIT 1;`,
+        function (error, results, fields) {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+            if (!results || results.length == 0) {
+                return res.status(401).json({ error: 'Utilisateur non trouvé' });
+            }
+            user = results[0];
+            return res.status(200).json(user);
+        })
 };
 
 exports.login = (req, res, next) => {
