@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { stringify } = require('querystring');
 
 
 // exports.Articles = {
@@ -8,25 +9,47 @@ const fs = require('fs');
 //     description: String,
 // }
 
-var Articles = {};
+var Articles = {
+    pseudo: String,
+    title: String,
+    text: String,
+    imageURL: String
+};
 
 
 exports.getAllArticles = (req, res, next) => {
-    Articles.find() // TODO: créer une requête SQL
-        .then(articles => res.status(200).json(articles))
-        .catch(error => res.status(400).json({ error }));
+    connection.query(`SELECT * FROM Article WHERE idArticle= ?`,
+        req.params.id,
+        (error, result) => {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+
+            return res.status(200).json(result);
+        },
+    );
 };
 
+
 exports.getOneArticles = (req, res, next) => {
-    Articles.find({ _id: req.params.id }) // TODO: créer une requête SQL
-        .then(articles => res.status(200).json(articles))
-        .catch(error => res.status(400).json({ error }));
+    connection.query(`SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
+        function (error, results, fields) {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+            if (!results || results.length == 0) {
+                return res.status(401).json({ error: 'Artcile trouvé' });
+            }
+            Articles = results[0];
+            return res.status(200).json(Articles);
+        });
 };
 
 exports.createArticles = (res, req, next) => {
     const ArticlesObject = JSON.parse(req.body.article);
     delete ArticlesObject._id;
-    const newArticle = new Articles({  // TODO: créer une requête SQL
+    const newArticle = new Articles({
+
         ...ArticlesObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
