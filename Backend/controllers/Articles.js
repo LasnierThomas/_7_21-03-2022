@@ -1,13 +1,7 @@
 const fs = require('fs');
 const { stringify } = require('querystring');
+const connection = require('../sql/dbconnection');
 
-
-// exports.Articles = {
-//     userId: String,
-//     title: String,
-//     imageURL: String,
-//     description: String,
-// }
 
 var Articles = {
     pseudo: String,
@@ -23,9 +17,7 @@ exports.getAllArticles = (req, res, next) => {
         (error, result) => {
             if (error) {
                 return res.status(400).json({ error });
-
             }
-
             return res.status(200).json(result);
         },
     );
@@ -49,6 +41,9 @@ exports.getOneArticles = (req, res, next) => {
 exports.createArticles = (res, req, next) => {
     const ArticlesObject = JSON.parse(req.body.article);
     delete ArticlesObject._id;
+
+    connection.query(`INSERT INTO Article (pseudo, title, text) VALUE (${req.body.pseudo}, ${req.body.title}, ${req.body.text}),
+    `)
     const newArticle = new Articles({
 
         ...ArticlesObject,
@@ -65,6 +60,8 @@ exports.modifyArtciles = (res, req, next) => {
             ...JSON.parse(req.body.article),
             imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body };
+
+    connection.query(`UPDATE Article SET (${req.body.title}, ${req.body.text}),`)
     Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id }) // TODO: créer une requête SQL
         .then(() => res.status(200).json({ message: 'Artcile modifié' }))
         .catch(error => res.status(400).json({ error }));
@@ -72,6 +69,8 @@ exports.modifyArtciles = (res, req, next) => {
 };
 
 exports.deleteArticles = (req, res, next) => {
+
+    connection.query(`DELETE FROM Article WHERE id=${req.body.id} LIMITE 1;`,)
     Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
         .then(newArticle => {
             const filename = newArticle.imageURL.split('/images/')[1];

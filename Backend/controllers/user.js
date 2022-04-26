@@ -5,32 +5,18 @@ const connection = require('../sql/dbconnection');
 
 exports.signup = (req, res, next) => {
 
-    // bcrypt.hash(req.body.password, 10)
+    //  bcrypt.hash(req.body.password, 10)
     //     .then(hash => {
-    connection.query(`INSERT INTO User (email, pseudo, password) VALUE (?.?)`,
-        [
-            req.body.email,
-            req.body.pseudo,
-            req.body.password
-        ],
-        function (error, results, fields) {
-            // TODO:
-        });
-    // TODO: supprimer le code ci dessous
-    // const userSchema = {
-    //     email: { type: String, require: true, unique: true },
-    //     password: { type: String, require: true },
-    // };
+    connection.query(`INSERT INTO User (email, pseudo, password) VALUES (${req.body.email},${req.body.pseudo},${req.body.password})`,
+    
+    .then((response) => {
+        res.status(201).json(JSON.stringify(response))
+    })
+            .catch((error) => {
+                console.error(error);
+                res.status(400).json({ error })
+            }))
 
-    // bcrypt.hash(req.body.password, 10)
-    //     .then(hash => {
-    //         // TODO: Envoyer une requete en SQL (Créer un nouvel utilisateur)
-    //         const user = new User({
-    //             email: req.body.email,
-    //             pseudo: req.body.pseudo,
-    //             password: hash,
-    //             controlPassword: hash
-    //         });
     //         // TODO: Vérifier que le traitement est correct et renvoyer le résultat
     //         user.save()
     //             .then(() => res.status(201).json({ message: 'Utilisateur crée' }))
@@ -78,6 +64,7 @@ exports.signup = (req, res, next) => {
                     .catch(error => res.status(400).json({ error }));
             });
     };
+}
 
 // exports.deleteUser = (req, res, next) => {
 //     User.findOne({ _id: req.params.id })
