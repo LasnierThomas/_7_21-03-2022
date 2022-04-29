@@ -38,58 +38,58 @@ exports.getOneArticles = (req, res, next) => {
         });
 };
 
-exports.createArticles = (res, req, next) => {
-    const ArticlesObject = JSON.parse(req.body.article);
-    delete ArticlesObject._id;
+// exports.createArticles = (res, req, next) => {
+//     const ArticlesObject = JSON.parse(req.body.article);
+//     delete ArticlesObject._id;
 
-    connection.query(`INSERT INTO Article (pseudo, title, text) VALUE (${req.body.pseudo}, ${req.body.title}, ${req.body.text}),
-    `)
-    const newArticle = new Articles({
+//     connection.query(`INSERT INTO Article (pseudo, title, text) VALUE (${req.body.pseudo}, ${req.body.title}, ${req.body.text}),
+//     `)
+//     const newArticle = new Articles({
 
-        ...ArticlesObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    });
-    newArticle.save()
-        .then(() => res.status(200).json({ message: 'arcticle enregistré' }))
-        .catch(error => res.status(400).json({ error }));
-};
+//         ...ArticlesObject,
+//         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+//     });
+//     newArticle.save()
+//         .then(() => res.status(200).json({ message: 'arcticle enregistré' }))
+//         .catch(error => res.status(400).json({ error }));
+// };
 
-exports.modifyArtciles = (res, req, next) => {
-    const ArtcilesObject = req.file ?
-        {
-            ...JSON.parse(req.body.article),
-            imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : { ...req.body };
+// exports.modifyArticles = (res, req, next) => {
+//     const ArtcilesObject = req.file ?
+//         {
+//             ...JSON.parse(req.body.article),
+//             imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+//         } : { ...req.body };
 
-    connection.query(`UPDATE Article SET (${req.body.title}, ${req.body.text}),`)
-    Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id }) // TODO: créer une requête SQL
-        .then(() => res.status(200).json({ message: 'Artcile modifié' }))
-        .catch(error => res.status(400).json({ error }));
+//     connection.query(`UPDATE Article SET (${req.body.title}, ${req.body.text}),`)
+//     Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id }) // TODO: créer une requête SQL
+//         .then(() => res.status(200).json({ message: 'Artcile modifié' }))
+//         .catch(error => res.status(400).json({ error }));
 
-};
+// };
 
-exports.deleteArticles = (req, res, next) => {
+// exports.deleteArticles = (req, res, next) => {
 
-    connection.query(`DELETE FROM Article WHERE id=${req.body.id} LIMITE 1;`,)
-    Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
-        .then(newArticle => {
-            const filename = newArticle.imageURL.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
-                Articles.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'Article Supprimé' }))
-                    .catch(error => res.status(400).json({ error }))
-            });
-        })
-        .catch(error => res.status(500).json({ error }));
+//     connection.query(`DELETE FROM Article WHERE id=${req.body.id} LIMITE 1;`,)
+//     Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
+//         .then(newArticle => {
+//             const filename = newArticle.imageURL.split('/images/')[1];
+//             fs.unlink(`images/${filename}`, () => {
+//                 Articles.deleteOne({ _id: req.params.id })
+//                     .then(() => res.status(200).json({ message: 'Article Supprimé' }))
+//                     .catch(error => res.status(400).json({ error }))
+//             });
+//         })
+//         .catch(error => res.status(500).json({ error }));
 
-    Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
-        .then((newArticle) => {
-            if (!newArticle) {
-                return res.status(404).json({ error: new error('article non trouvé') });
-            }
-            if (newArticle.userId !== req.auth.userId) {
-                return res.status(401).json({ error: new error('Requête non autorisé') });
-            }
+//     Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
+//         .then((newArticle) => {
+//             if (!newArticle) {
+//                 return res.status(404).json({ error: new error('article non trouvé') });
+//             }
+//             if (newArticle.userId !== req.auth.userId) {
+//                 return res.status(401).json({ error: new error('Requête non autorisé') });
+//             }
 
-        })
-};
+//         })
+// };

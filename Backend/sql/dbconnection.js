@@ -12,4 +12,8 @@ const connection = mysql.createConnection({
     port: 3306,
 });
 
+setInterval(function () {
+    connection.query('SELECT 1');
+}, 5000);
+
 module.exports = connection; 
