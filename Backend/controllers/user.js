@@ -5,27 +5,20 @@ const connection = require('../sql/dbconnection');
 
 exports.signup = (req, res, next) => {
 
-    // bcrypt.hash(req.body.password, 10)
-    //     .then(hash => {
-    connection.query(`INSERT INTO User (email, pseudo, password) VALUES ('${req.body.email}', '${req.body.pseudo}', '${req.body.password}')`,
-        function (error, results, fields) {
-            console.debug(error);
-            console.debug(results);
-            console.debug(fields);
-            if (!results || results.length == 0) {
-                return res.status(401).json({ error: "L'utilisateur n'a pas pu être créé" });
-            }
-            res.status(201).json(JSON.stringify(results))
-        });
-
-
-    //         // TODO: Vérifier que le traitement est correct et renvoyer le résultat
-    //     user.save()
-    //         .then(() => res.status(201).json({ message: 'Utilisateur crée' }))
-    //         .catch(error => res.status(400).json({ error }));
-    // })
-    // .catch(error => res.status(400).json({ error }));
+    bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+            connection.query(`INSERT INTO User (email, pseudo, password) VALUES ('${req.body.email}', '${req.body.pseudo}', '${hash}')`,
+                function (error, results, fields) {
+                    if (!results || results.length == 0) {
+                        return res.status(401).json({ error: "L'utilisateur n'a pas pu être créé" });
+                    }
+                    res.status(201).json(JSON.stringify(results))
+                });
+        })
+        .catch(error => res.status(400).json({ error }));
 };
+
+
 
 
 
@@ -41,42 +34,26 @@ exports.signup = (req, res, next) => {
 // };
 
 exports.login = (req, res, next) => {
-
-    const user = JSON.parse(req.body.pseudo);
-
+    // bcrypt.compare(req.body.password, user.password)
     connection.query(`SELECT * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
         function (error, results, fields) {
-            console.debug(error);
-            console.debug(results);
-            console.debug(fields);
             if (!results) {
-                return res.status(400).json({ error });
+
+                return res.status(401).json({ error: 'email incorrect' });
             }
-            if (!results || results.length == 0) {
-                return res.status(401).json({ error: 'Utilisateur non trouvé' });
-            }
-            user = results[0];
-            return res.status(200).json(user);
-        });
-    bcrypt.compare(req.body.password, user.password)
-    connection.query(`SELECT * FROM User WHERE pseudo="${req.body.pseudo}" LIMIT 1;`,
-        function (error, results, fields) {
-            console.debug(error);
-            console.debug(results);
-            console.debug(fields);
-            if (!results) {
-                return res.status(401).json({ error: 'Mot de pass incorrect' });
-            }
-            res.status(200).json({
-                pseudoId: user._id,
+
+            const user = results[0]
+            const response = {
+                pseudoId: user.id,
                 token: jwt.sign(
-                    { pseudoId: user._id },
+                    { pseudoId: user.id },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                 )
-            });
-        })
-        .catch(error => res.status(400).json({ error }));
+            }
+            console.log(response);
+            res.status(200).json(response);
+        });
 };
 
 
