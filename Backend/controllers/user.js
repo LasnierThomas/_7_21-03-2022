@@ -41,8 +41,14 @@ exports.signup = (req, res, next) => {
 // };
 
 exports.login = (req, res, next) => {
+
+    const user = JSON.parse(req.body.pseudo);
+
     connection.query(`SELECT * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
         function (error, results, fields) {
+            console.debug(error);
+            console.debug(results);
+            console.debug(fields);
             if (!results) {
                 return res.status(400).json({ error });
             }
@@ -52,25 +58,29 @@ exports.login = (req, res, next) => {
             user = results[0];
             return res.status(200).json(user);
         });
+    bcrypt.compare(req.body.password, user.password)
+    connection.query(`SELECT * FROM User WHERE pseudo="${req.body.pseudo}" LIMIT 1;`,
+        function (error, results, fields) {
+            console.debug(error);
+            console.debug(results);
+            console.debug(fields);
+            if (!results) {
+                return res.status(401).json({ error: 'Mot de pass incorrect' });
+            }
+            res.status(200).json({
+                pseudoId: user._id,
+                token: jwt.sign(
+                    { pseudoId: user._id },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
+                )
+            });
+        })
+        .catch(error => res.status(400).json({ error }));
 };
 
 
-//     bcrypt.compare(req.body.password, user.password),
-//         function (error, results, fields) {
-//             if (!results) {
-//                 return res.status(401).json({ error: 'Mot de passe incorrect' });
-//             }
-//             res.status(200).json({
-//                 userId: user.id,
-//                 token: jwt.sign(
-//                     { userId: user.id },
-//                     'RANDOM_TOKEN_SECRET',
-//                     { expriresIN: '24h' }
-//                 )
-//             });
-//         }
-//             .catch(error => res.status(400).json({ error }));
-// };
+
 
 
 
