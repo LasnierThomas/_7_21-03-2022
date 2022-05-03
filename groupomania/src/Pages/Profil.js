@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Components/AppContext';
 
 
+
+
 const Profil = () => {
 
     const user = useContext(UserContext);
@@ -12,6 +14,8 @@ const Profil = () => {
         navigate('/Acceuil');
 
     }
+
+
 
     return (
         <div className='block-parent'>
@@ -22,7 +26,7 @@ const Profil = () => {
                     <p>Email: {user.email}</p>
                 </div>
                 <button className='button-profil' onClick={handleClick}>Retour acceuil</button>
-                <button className='button-profil'>Supprimer votre compte</button>
+                <input className='button-profil' type='submit' value='Supprimer votre compte'></input>
             </div>
         </div>
     );
