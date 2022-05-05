@@ -27,9 +27,9 @@ exports.login = (req, res, next) => {
             }
             const user = results[0]
             const response = {
-                pseudoId: user.id,
+                userId: user.id,
                 token: jwt.sign(
-                    { pseudoId: user.id },
+                    { userId: user.id },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                 )
@@ -48,11 +48,13 @@ exports.login = (req, res, next) => {
 
 
 
-// exports.deleteUser = (req, res, next) => {
-//     connection.query(`DELETE * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
-//         function (error, results, fields) {
-//             if (results) {
-//                 return res.status(200).json({ error: 'Utilisateur supprimé' });
-//             }
-//         });
-// };
+exports.deleteUser = (req, res, next) => {
+    connection.query(`DELETE * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
+        function (error, results, fields) {
+            if (results) {
+                return res.status(200).json({ error: 'Utilisateur supprimé' });
+            } else {
+                res.status(400).json({ error: 'Impossible de supprimer' });
+            }
+        });
+};

@@ -1,58 +1,60 @@
 const fs = require('fs');
-const { stringify } = require('querystring');
+// const { stringify } = require('querystring');
 const connection = require('../sql/dbconnection');
 
 
-var Articles = {
-    pseudo: String,
-    title: String,
-    text: String,
-    imageURL: String
-};
-
-
-exports.getAllArticles = (req, res, next) => {
-    connection.query(`SELECT * FROM Article WHERE idArticle= ?`,
-        req.params.id,
-        (error, result) => {
-            if (error) {
-                return res.status(400).json({ error });
-            }
-            return res.status(200).json(result);
-        },
-    );
-};
-
-
-exports.getOneArticles = (req, res, next) => {
-    connection.query(`SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
-        function (error, results, fields) {
-            if (error) {
-                return res.status(400).json({ error });
-            }
-            if (!results || results.length == 0) {
-                return res.status(401).json({ error: 'Artcile trouvé' });
-            }
-            Articles = results[0];
-            return res.status(200).json(Articles);
-        });
-};
-
-// exports.createArticles = (res, req, next) => {
-//     const ArticlesObject = JSON.parse(req.body.article);
-//     delete ArticlesObject._id;
-
-//     connection.query(`INSERT INTO Article (pseudo, title, text) VALUE (${req.body.pseudo}, ${req.body.title}, ${req.body.text}),
-//     `)
-//     const newArticle = new Articles({
-
-//         ...ArticlesObject,
-//         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-//     });
-//     newArticle.save()
-//         .then(() => res.status(200).json({ message: 'arcticle enregistré' }))
-//         .catch(error => res.status(400).json({ error }));
+// var Articles = {
+//     pseudo: String,
+//     title: String,
+//     text: String,
+//     imageURL: String
 // };
+
+
+// exports.getAllArticles = (req, res, next) => {
+//     connection.query(`SELECT * FROM Article WHERE idArticle= ?`,
+//         req.params.id,
+//         (error, result) => {
+//             if (error) {
+//                 return res.status(400).json({ error });
+//             }
+//             return res.status(200).json(result);
+//         },
+//     );
+// };
+
+
+// exports.getOneArticles = (req, res, next) => {
+//     connection.query(`SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
+//         function (error, results, fields) {
+//             if (error) {
+//                 return res.status(400).json({ error });
+//             }
+//             if (!results || results.length == 0) {
+//                 return res.status(401).json({ error: 'Artcile trouvé' });
+//             }
+//             Articles = results[0];
+//             return res.status(200).json(Articles);
+//         });
+// };
+
+exports.createArticles = (res, req, next) => {
+    // const ArticlesObject = JSON.parse(req.body.article);
+    // delete ArticlesObject._id;
+
+    connection.query(`INSERT INTO Article (title, text) VALUE (${req.body.title}, ${req.body.text})`,
+        function (error, results, fields) {
+            if (!results) {
+                return res.status(401).json({ error: 'Post non crée' })
+            }
+            console.log(results);
+        });
+    // const newArticle = new Articles({
+
+    //     ...ArticlesObject,
+    //     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    // });
+};
 
 // exports.modifyArticles = (res, req, next) => {
 //     const ArtcilesObject = req.file ?

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const connection = require('./sql/dbconnection');
 const userRoutes = require('./routes/user');
-// const articlesRoutes = require('./routes/Articles');
+const articlesRoutes = require('./routes/Articles');
 
 connection.connect(function (err) {
     if (err) {
@@ -27,7 +27,7 @@ app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
-// app.use('/api/articles', articlesRoutes);
+app.use('/api/articles', articlesRoutes);
 
 module.exports = app;
 
