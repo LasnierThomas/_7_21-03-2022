@@ -14,8 +14,8 @@ const Profil = () => {
     }
 
 
-    const deleteUser = () => {
-        fetch(`${process.env.REACT_APP_API_URL}api/auth/deleteUser`, {
+    const deleteUser = (userId) => {
+        fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
             method: 'DELETE'
         }).then((result) => {
             result.json().then((resp) => {
@@ -23,7 +23,7 @@ const Profil = () => {
             })
         })
     }
-
+    console.log(user);
     return (
         <div className='block-parent'>
             <h3>Information du profil</h3>
@@ -33,7 +33,7 @@ const Profil = () => {
                     <p>Email: {user.email}</p>
                 </div>
                 <button className='button-profil' onClick={handleClick}>Retour acceuil</button>
-                <input className='button-profil' type='submit' onClick={() => deleteUser(user.id)} value='Supprimer votre compte'></input>
+                <input className='button-profil' type='submit' onClick={() => deleteUser(user.email)} value='Supprimer votre compte'></input>
             </div>
         </div>
     );

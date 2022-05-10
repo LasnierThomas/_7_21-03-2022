@@ -9,14 +9,18 @@ import Article from '../../Pages/Article';
 import NewPost from '../../Pages/NewPost';
 import PostWrite from '../../Pages/PostWrite';
 import Banner from '../Banner';
+import cookie from 'js-cookie';
 import logo2 from '../../Assets/logo2.png';
 import { FaPowerOff } from 'react-icons/fa';
 import { FaUserAlt } from 'react-icons/fa';
 
-const Root = () => {
+const Logout = () => {
     const navigate = useNavigate();
     let handleClick = () => {
-        // navigate('/');
+        cookie.remove('jwt', {
+            expires: 1
+        })
+        navigate('/');
     }
     return (
         <div>
@@ -49,7 +53,7 @@ const index = () => {
     return (
         <div>
             <BrowserRouter>
-                <Root />
+                <Logout />
             </BrowserRouter>
         </div>
 

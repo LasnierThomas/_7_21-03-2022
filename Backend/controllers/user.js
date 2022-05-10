@@ -37,8 +37,10 @@ exports.login = (req, res, next) => {
             console.log(response);
             bcrypt.compare(req.body.password, user.password, function (error, results, fields) {
                 if (results) {
+                    console.log(results);
                     res.status(200).json(response);
                 } else {
+                    console.log(error);
                     res.status(400).json({ error: 'Mot de passe incorrect' });
                 }
             });
@@ -49,8 +51,10 @@ exports.login = (req, res, next) => {
 
 
 exports.deleteUser = (req, res, next) => {
-    connection.query(`DELETE * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
+
+    connection.query(`DELETE FROM User WHERE email="${req.params.userId}" LIMIT 1;`,
         function (error, results, fields) {
+            console.log(error)
             if (results) {
                 return res.status(200).json({ error: 'Utilisateur supprimé' });
             } else {

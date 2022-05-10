@@ -47,6 +47,7 @@ exports.createArticles = (res, req, next) => {
             if (!results) {
                 return res.status(401).json({ error: 'Post non crée' })
             }
+            res.status(201).json(JSON.stringify(results))
             console.log(results);
         });
     // const newArticle = new Articles({
