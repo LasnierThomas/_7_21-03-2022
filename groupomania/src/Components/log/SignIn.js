@@ -25,6 +25,11 @@ const SignIn = () => {
                     emailError.innerHTML = res.data.errors.email;
                     passwordError.innerHTML = res.data.errors.password;
                 } else {
+                    const { token, userID } = res.data;
+
+
+
+                    // modifier variable utilisateur
                     window.location = '/acceuil';
                 }
             })
