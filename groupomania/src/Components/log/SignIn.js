@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '../AppContext';
+import { useNavigate } from "react-router-dom";
 
 
 const SignIn = () => {
+    let navigate = useNavigate();
+    const user = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -26,11 +30,12 @@ const SignIn = () => {
                     passwordError.innerHTML = res.data.errors.password;
                 } else {
                     const { token, userID } = res.data;
+                    user.setUser(res.data);
 
 
 
                     // modifier variable utilisateur
-                    window.location = '/acceuil';
+                    navigate("/acceuil", { replace: true });;
                 }
             })
             .catch((err) => {

@@ -4,14 +4,13 @@ export const UidContext = createContext();
 
 export const UserContext = createContext({
 
-    // Update() {
-    //     const { pseudo, email } = useContext(UserContext);
+    pseudo: 'Toto3',
+    email: 'toto3@gmail.com',
+    token: 'token',
+    userID: 'userID',
 
-    //     return (
-    //         <p>Pseudo: {pseudo}</p>,
-    //         <p>Email: {email}</p>
-    //     )
-    // }
+    setUser: (user) => { }
+
 });
 
 export const PostContext = [

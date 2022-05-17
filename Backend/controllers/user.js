@@ -27,6 +27,8 @@ exports.login = (req, res, next) => {
             }
             const user = results[0]
             const response = {
+                pseudo: user.pseudo,
+                email: user.email,
                 userId: user.id,
                 token: jwt.sign(
                     { userId: user.id },
