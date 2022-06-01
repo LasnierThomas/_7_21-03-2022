@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import Routes from './Components/Routes/index';
 import { UidContext, UserContext } from './Components/AppContext';
 import axios from 'axios';
+// import cookie from 'js-cookie';
 
 const App = () => {
   const [uid, setUid] = useState(null);
   const [user, setUser] = useState(null);
+  // const navigate = useNavigate();
 
 
   useState(() => {
@@ -19,7 +22,11 @@ const App = () => {
           setUser(res.data);
         })
         .catch((err) => {
-          // TODO: deconnecter l'utilisateur et supprimer cookie
+          // cookie.remove('jwt', {
+          //   expires: 1
+          // })
+          // navigate('/');
+          // TODO: delete le cookie
           console.log(err);
           setUser();
         });

@@ -14,7 +14,7 @@ const NewPost = () => {
 
         axios({
             method: 'post',
-            url: `${process.env.REACT_APP_API_URL}api/articles/newpost`,
+            url: `${process.env.REACT_APP_API_URL}api/articles`,
             withCredentials: true,
             data: {
                 title,

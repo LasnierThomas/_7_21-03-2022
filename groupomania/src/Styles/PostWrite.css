@@ -43,6 +43,8 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+    width: 550px;
+    align-items: center;
 }
 
 .commentaire-txt{
@@ -67,7 +69,7 @@
   border-radius: 20px;
   border: solid 2px rgb(253, 213, 213);
   font-size: 15px;
-  margin: 0 0 0 230px ;
+  
   padding: 2px;
   font-weight:200;
   width: 100px;
@@ -97,8 +99,16 @@
 
 @media screen and (max-width: 633px) {
 
-   
+  .block-parents{
+    min-width: 300px;
+  }
 
-    }
+  .block-comment{
+  
+    width: 380px;
+}
+
+
+}
 
   

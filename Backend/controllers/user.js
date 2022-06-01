@@ -49,8 +49,18 @@ exports.login = (req, res, next) => {
         });
 };
 
+exports.userInfo = (req, res, next) => {
+    connection.query(`SELECT * FROM User WHERE email="${req.params.userId}" LIMIT 1;`,
 
+        function (error, results, fields) {
 
+            if (results) {
+                return res.status(200).json({ message: 'Utilisateur connecter' });
+            } else {
+                res.status(400).json({ error: 'Impossible de trouvé l' / 'utilisateur' });
+            }
+        });
+}
 
 exports.deleteUser = (req, res, next) => {
 
@@ -58,7 +68,7 @@ exports.deleteUser = (req, res, next) => {
         function (error, results, fields) {
             console.log(error)
             if (results) {
-                return res.status(200).json({ error: 'Utilisateur supprimé' });
+                return res.status(200).json({ message: 'Utilisateur supprimé' });
             } else {
                 res.status(400).json({ error: 'Impossible de supprimer' });
             }

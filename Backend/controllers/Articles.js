@@ -38,17 +38,17 @@ const connection = require('../sql/dbconnection');
 //         });
 // };
 
-exports.createArticles = (res, req, next) => {
+exports.createArticles = (req, res, next) => {
     // const ArticlesObject = JSON.parse(req.body.article);
     // delete ArticlesObject._id;
 
-    connection.query(`INSERT INTO Article (title, text) VALUE (${req.body.title}, ${req.body.text})`,
+    connection.query(`INSERT INTO Article (title, text, pseudo, createID) VALUES (${req.body.title}, ${req.body.text},${req.body.pseudo},${req.body.createID})`,
         function (error, results, fields) {
             if (!results) {
-                return res.status(401).json({ error: 'Post non crée' })
+                res.status(201).json(JSON.stringify(results))
             }
-            res.status(201).json(JSON.stringify(results))
-            console.log(results);
+            return res.status(401).json({ error: 'Post non crée' })
+
         });
     // const newArticle = new Articles({
 
