@@ -42,12 +42,14 @@ exports.createArticles = (req, res, next) => {
     // const ArticlesObject = JSON.parse(req.body.article);
     // delete ArticlesObject._id;
 
-    connection.query(`INSERT INTO Article (title, text, pseudo, createID) VALUES (${req.body.title}, ${req.body.text},${req.body.pseudo},${req.body.createID})`,
+    console.log(req.auth);
+    connection.query(`INSERT INTO Article (title, text, pseudo, createID) VALUES ('${req.body.title}', '${req.body.text}','${req.body.pseudo}','${req.body.createID}')`,
         function (error, results, fields) {
+
             if (!results) {
-                res.status(201).json(JSON.stringify(results))
+                return res.status(401).json({ error: 'Post non crée' })
             }
-            return res.status(401).json({ error: 'Post non crée' })
+            return res.status(201).json(JSON.stringify(results))
 
         });
     // const newArticle = new Articles({

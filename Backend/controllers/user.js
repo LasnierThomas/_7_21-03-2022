@@ -26,16 +26,19 @@ exports.login = (req, res, next) => {
                 return res.status(401).json({ error: 'email incorrect' });
             }
             const user = results[0]
+            const token = jwt.sign(
+                { userId: user.id },
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h' }
+            )
+
             const response = {
                 pseudo: user.pseudo,
                 email: user.email,
                 userId: user.id,
-                token: jwt.sign(
-                    { userId: user.id },
-                    'RANDOM_TOKEN_SECRET',
-                    { expiresIn: '24h' }
-                )
+                token: token
             }
+
             console.log(response);
             bcrypt.compare(req.body.password, user.password, function (error, results, fields) {
                 if (results) {

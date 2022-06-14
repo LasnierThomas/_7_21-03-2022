@@ -3,12 +3,16 @@ import axios from 'axios';
 import { UserContext } from '../AppContext';
 import { useNavigate } from "react-router-dom";
 
+// import cookie from 'js-cookie';
+
 
 const SignIn = () => {
     let navigate = useNavigate();
     const user = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // const header = `Authorization: Bearer ${token}`;
+
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -23,6 +27,11 @@ const SignIn = () => {
                 email,
                 password,
             },
+            // headers: {
+            //     header
+            // }
+
+
         })
             .then((res) => {
                 if (res.data.errors) {
@@ -31,6 +40,7 @@ const SignIn = () => {
                 } else {
                     const { token, userID } = res.data;
                     user.setUser(res.data);
+
 
 
 

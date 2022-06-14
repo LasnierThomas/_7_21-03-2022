@@ -6,6 +6,7 @@ const connection = require('./sql/dbconnection');
 const userRoutes = require('./routes/user');
 const articlesRoutes = require('./routes/Articles');
 
+
 connection.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
