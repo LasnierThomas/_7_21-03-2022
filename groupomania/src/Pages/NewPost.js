@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
+import { UserContext } from '../Components/AppContext';
 import '../Styles/NewPost.css'
 import axios from 'axios';
 
 const NewPost = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const user = useContext(UserContext);
 
     const handlePost = (e) => {
         e.preventDefault();
@@ -20,6 +22,9 @@ const NewPost = () => {
                 title,
                 description,
             },
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
             .then((res) => {
                 if (res.data.errors) {

@@ -12,26 +12,28 @@ const App = () => {
 
 
   useState(() => {
-    const updateUser = () => {
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/auth/login`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          setUser(res.data);
-        })
-        .catch((err) => {
-          // cookie.remove('jwt', {
-          //   expires: 1
-          // })
-          // navigate('/');
-          // TODO: delete le cookie
-          console.log(err);
-          setUser();
-        });
-    };
-    updateUser();
+    setUser(JSON.parse(localStorage.getItem("user")));
+
+    // const updateUser = () => {
+    //   axios({
+    //     method: "get",
+    //     url: `${process.env.REACT_APP_API_URL}api/auth/login`,
+    //     withCredentials: true,
+    //   })
+    //     .then((res) => {
+    //       setUser(res.data);
+    //     })
+    //     .catch((err) => {
+    //       // cookie.remove('jwt', {
+    //       //   expires: 1
+    //       // })
+    //       // navigate('/');
+    //       // TODO: delete le cookie
+    //       console.log(err);
+    //       setUser();
+    //     });
+    // };
+    // updateUser();
   }, []);
 
 

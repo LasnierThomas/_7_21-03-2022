@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PostContext } from '../Components/AppContext';
+import axios from 'axios';
 import '../Styles/Article.css'
 
 const Article = () => {
+
+    const [title, setTitle] = useState('');
+    const [pseudo, setPseudo] = useState('');
+    const article = useContext(PostContext);
+
     const navigate = useNavigate();
     const handleClick1 = () => {
         navigate('/detente');
@@ -19,6 +25,16 @@ const Article = () => {
         navigate('/post');
     }
 
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}api/articles`,
+        withCredentials: true,
+        data: {
+            title,
+            pseudo,
+        },
+    });
+
     return (
         <div className='all-block'>
 
@@ -30,11 +46,11 @@ const Article = () => {
                 <h3 className='title-block'>Articles</h3>
                 <button className='push-article' onClick={handleClick4}>Ajouter un article</button>
                 <ul>
-                    {PostContext.map(articles =>
+                    {article.map(() =>
                         <li>
                             <div className='composition-post' onClick={handleClick5}>
-                                <div className='post-title'>{articles.title}</div>
-                                <div className='post-id'>{articles.id}</div>
+                                <div className='post-title' type="text" name='title' id='title' onChange={(e) => setTitle(e.target.value)} value={title} ></div>
+                                <div className='post-id' type="text" name='pseudo' id='pseudo' onChange={(e) => setPseudo(e.target.value)} value={pseudo} ></div>
                             </div>
                         </li>
                     )}

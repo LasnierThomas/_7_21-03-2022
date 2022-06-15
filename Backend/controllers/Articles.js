@@ -11,17 +11,17 @@ const connection = require('../sql/dbconnection');
 // };
 
 
-// exports.getAllArticles = (req, res, next) => {
-//     connection.query(`SELECT * FROM Article WHERE idArticle= ?`,
-//         req.params.id,
-//         (error, result) => {
-//             if (error) {
-//                 return res.status(400).json({ error });
-//             }
-//             return res.status(200).json(result);
-//         },
-//     );
-// };
+exports.getAllArticles = (req, res, next) => {
+    connection.query(`SELECT title, pseudo FROM Article`,
+        req.params.id,
+        (error, result) => {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+            return res.status(200).json(result);
+        },
+    );
+};
 
 
 // exports.getOneArticles = (req, res, next) => {
@@ -41,13 +41,16 @@ const connection = require('../sql/dbconnection');
 exports.createArticles = (req, res, next) => {
     // const ArticlesObject = JSON.parse(req.body.article);
     // delete ArticlesObject._id;
-
+    // if (!req.auth){
+    //     return res.status(401).json({ error: 'Post non crée' })
+    // }
     console.log(req.auth);
-    connection.query(`INSERT INTO Article (title, text, pseudo, createID) VALUES ('${req.body.title}', '${req.body.text}','${req.body.pseudo}','${req.body.createID}')`,
+    connection.query(`INSERT INTO Article (title, text, createID) VALUES ('${req.body.title}', '${req.body.description}','${req.auth.userId}')`,
         function (error, results, fields) {
 
             if (!results) {
-                return res.status(401).json({ error: 'Post non crée' })
+                console.log(error);
+                return res.status(400).json({ error: 'Post non crée' })
             }
             return res.status(201).json(JSON.stringify(results))
 
