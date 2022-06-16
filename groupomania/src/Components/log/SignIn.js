@@ -11,6 +11,8 @@ const SignIn = () => {
     const user = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // const header = `Authorization: Bearer ${token}`;
+
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -25,7 +27,9 @@ const SignIn = () => {
                 email,
                 password,
             },
-
+            // headers: {
+            //     header
+            // }
 
 
         })
@@ -36,7 +40,9 @@ const SignIn = () => {
                 } else {
                     const { token, userID } = res.data;
                     user.setUser(res.data);
-                    localStorage.setItem("user", JSON.stringify(res.data));
+
+
+
 
                     // modifier variable utilisateur
                     navigate("/acceuil", { replace: true });;
