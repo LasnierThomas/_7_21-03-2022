@@ -1,17 +1,13 @@
-import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { UserContext } from '../AppContext';
+import { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
-// import cookie from 'js-cookie';
-
+import { UserContext } from '../AppContext';
 
 const SignIn = () => {
     let navigate = useNavigate();
     const user = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const header = `Authorization: Bearer ${token}`;
 
 
     const handleLogin = (e) => {
@@ -22,30 +18,19 @@ const SignIn = () => {
         axios({
             method: 'post',
             url: `${process.env.REACT_APP_API_URL}api/auth/login`,
-            withCredentials: true,
             data: {
                 email,
                 password,
-            },
-            // headers: {
-            //     header
-            // }
-
-
+            }
         })
             .then((res) => {
                 if (res.data.errors) {
                     emailError.innerHTML = res.data.errors.email;
                     passwordError.innerHTML = res.data.errors.password;
                 } else {
-                    const { token, userID } = res.data;
                     user.setUser(res.data);
-
-
-
-
-                    // modifier variable utilisateur
-                    navigate("/acceuil", { replace: true });;
+                    localStorage.setItem("user", JSON.stringify(res.data));
+                    navigate("/acceuil", { replace: true });
                 }
             })
             .catch((err) => {

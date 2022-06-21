@@ -1,16 +1,11 @@
-import { createContext, useContext } from 'react';
-
-export const UidContext = createContext();
+import { createContext } from 'react';
 
 export const UserContext = createContext({
-
     pseudo: 'Toto3',
     email: 'toto3@gmail.com',
     token: 'token',
     userID: 'userID',
-
     setUser: (user) => { }
-
 });
 
 export const PostContext = [

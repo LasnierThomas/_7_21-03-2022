@@ -39,24 +39,30 @@ const connection = require('../sql/dbconnection');
 // };
 
 exports.createArticles = (req, res, next) => {
-    // const ArticlesObject = JSON.parse(req.body.article);
-    // delete ArticlesObject._id;
+    // 1/ Verify
+    // Vérifier l'authentification
+    const user = req.auth;
+    if (!user) {
+        return res.status(401).json({ error: 'Utilisateur non authentifié' })
+    }
+    // Vérifier que je respecte les conditions de création d'un article
+    if (!req.body.title || req.body.title.length > 128) {
+        return res.status(400).json({ error: 'Titre incorrect' })
+    }
 
-    console.log(req.auth);
-    connection.query(`INSERT INTO Article (title, text, pseudo, createID) VALUES ('${req.body.title}', '${req.body.text}','${req.body.pseudo}','${req.body.createID}')`,
+    // 2/ Act => je crée mon article
+    connection.query(`INSERT INTO Article (title, text, pseudo) VALUES ('${req.body.title}', '${req.body.description}','${user.pseudo}')`,
         function (error, results, fields) {
-
             if (!results) {
-                return res.status(401).json({ error: 'Post non crée' })
+                console.log(error);
+                return res.status(400).json({ error: 'Post non crée' })
             }
-            return res.status(201).json(JSON.stringify(results))
+
+            // 3/ Je renvoie ce qu'il faut
+            console.debug(results);
+            return res.status(201).json(JSON.stringify(results[0]))
 
         });
-    // const newArticle = new Articles({
-
-    //     ...ArticlesObject,
-    //     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    // });
 };
 
 // exports.modifyArticles = (res, req, next) => {

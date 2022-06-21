@@ -53,12 +53,22 @@ exports.login = (req, res, next) => {
 };
 
 exports.userInfo = (req, res, next) => {
-    connection.query(`SELECT * FROM User WHERE email="${req.params.userId}" LIMIT 1;`,
-
+    const user = req.auth;
+    connection.query(`SELECT * FROM User WHERE id="${user.userId}" LIMIT 1;`,
         function (error, results, fields) {
-
             if (results) {
-                return res.status(200).json({ message: 'Utilisateur connecter' });
+                const user = results[0];
+                const token = jwt.sign(
+                    { userId: user.id, pseudo: user.pseudo },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
+                )
+                return res.status(200).json({
+                    pseudo: user.pseudo,
+                    email: user.email,
+                    userId: user.id,
+                    token: token
+                });
             } else {
                 res.status(400).json({ error: 'Impossible de trouvé l' / 'utilisateur' });
             }
