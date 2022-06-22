@@ -11,17 +11,17 @@ const connection = require('../sql/dbconnection');
 // };
 
 
-// exports.getAllArticles = (req, res, next) => {
-//     connection.query(`SELECT * FROM Article WHERE idArticle= ?`,
-//         req.params.id,
-//         (error, result) => {
-//             if (error) {
-//                 return res.status(400).json({ error });
-//             }
-//             return res.status(200).json(result);
-//         },
-//     );
-// };
+exports.getAllArticles = (req, res, next) => {
+    connection.query(`SELECT title, pseudo FROM Article `,
+        req.params.id,
+        (error, result) => {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+            return res.status(200).json(result);
+        },
+    );
+};
 
 
 // exports.getOneArticles = (req, res, next) => {

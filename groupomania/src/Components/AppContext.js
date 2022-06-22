@@ -9,22 +9,20 @@ export const UserContext = createContext({
 });
 
 export const PostContext = [
-    {
-        title: 'title article',
-        id: 'toto',
-        article: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet vitae illo ipsa, itaque dicta, illum quo consectetur pariatur perspiciatis eveniet voluptatibus veritatis ex sint totam, ipsum necessitatibus nostrum quas? Odit.',
+  {
+    title: "title article",
+    id: "toto",
+    article:
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet vitae illo ipsa, itaque dicta, illum quo consectetur pariatur perspiciatis eveniet voluptatibus veritatis ex sint totam, ipsum necessitatibus nostrum quas? Odit.",
 
-        // setArticle: (article) => { }
-    },
-
-    {
-        title: 'title article 2',
-        id: 'toti',
-        article: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet vitae illo ipsa, itaque dicta, illum quo consectetur pariatur perspiciatis eveniet voluptatibus veritatis ex sint totam, ipsum necessitatibus nostrum quas? Odit.',
-
-    }
-
+    setArticle: (article) => {},
+  },
 ];
+    
+
+
+
+
 
 export const CommentPost = [
     {
