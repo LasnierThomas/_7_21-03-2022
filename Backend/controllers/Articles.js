@@ -12,57 +12,60 @@ const connection = require('../sql/dbconnection');
 
 
 exports.getAllArticles = (req, res, next) => {
-    connection.query(`SELECT title, pseudo FROM Article `,
-        req.params.id,
-        (error, result) => {
-            if (error) {
-                return res.status(400).json({ error });
-            }
-            return res.status(200).json(result);
-        },
-    );
+  connection.query(
+    `SELECT title, pseudo FROM Article `,
+    req.params.id,
+    (error, result) => {
+      if (error) {
+        return res.status(400).json({ error });
+      }
+
+      return res.status(200).json(result);
+    }
+  );
 };
 
-
-// exports.getOneArticles = (req, res, next) => {
-//     connection.query(`SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
-//         function (error, results, fields) {
-//             if (error) {
-//                 return res.status(400).json({ error });
-//             }
-//             if (!results || results.length == 0) {
-//                 return res.status(401).json({ error: 'Artcile trouvé' });
-//             }
-//             Articles = results[0];
-//             return res.status(200).json(Articles);
-//         });
-// };
+exports.getOneArticles = (req, res, next) => {
+  connection.query(
+    `SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
+    function (error, results, fields) {
+      if (error) {
+        return res.status(400).json({ error });
+      }
+      if (!results || results.length == 0) {
+        return res.status(401).json({ error: "Artcile trouvé" });
+      }
+      Articles = results[0];
+      return res.status(200).json(Articles);
+    }
+  );
+};
 
 exports.createArticles = (req, res, next) => {
-    // 1/ Verify
-    // Vérifier l'authentification
-    const user = req.auth;
-    if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non authentifié' })
+  // 1/ Verify
+  // Vérifier l'authentification
+  const user = req.auth;
+  if (!user) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
+  // Vérifier que je respecte les conditions de création d'un article
+  if (!req.body.title || req.body.title.length > 128) {
+    return res.status(400).json({ error: "Titre incorrect" });
+  }
+
+  // 2/ Act => je crée mon article
+  connection.query(
+    `INSERT INTO Article (title, text, pseudo) VALUES ('${req.body.title}', '${req.body.description}','${user.pseudo}')`,
+    function (error, results, fields) {
+      if (!results) {
+        return res.status(400).json({ error: "Post non crée" });
+      }
+
+      // 3/ Je renvoie ce qu'il faut
+
+      return res.status(201).json(JSON.stringify(results[0]));
     }
-    // Vérifier que je respecte les conditions de création d'un article
-    if (!req.body.title || req.body.title.length > 128) {
-        return res.status(400).json({ error: 'Titre incorrect' })
-    }
-
-    // 2/ Act => je crée mon article
-    connection.query(`INSERT INTO Article (title, text, pseudo) VALUES ('${req.body.title}', '${req.body.description}','${user.pseudo}')`,
-        function (error, results, fields) {
-            if (!results) {
-                console.log(error);
-                return res.status(400).json({ error: 'Post non crée' })
-            }
-
-            // 3/ Je renvoie ce qu'il faut
-            console.debug(results);
-            return res.status(201).json(JSON.stringify(results[0]))
-
-        });
+  );
 };
 
 // exports.modifyArticles = (res, req, next) => {
