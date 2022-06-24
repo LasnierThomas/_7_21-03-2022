@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostContext } from "../Components/AppContext";
 import "../Styles/Article.css";
 
 const Article = () => {
-  const articles = useContext(PostContext);
+  const data = useContext(PostContext);
   const navigate = useNavigate();
   const handleClick1 = () => {
     navigate("/detente");
@@ -19,6 +19,9 @@ const Article = () => {
   const handleClick5 = () => {
     navigate("/post");
   };
+
+  
+  
 
   return (
     <div className="all-block">
@@ -35,15 +38,16 @@ const Article = () => {
         <button className="push-article" onClick={handleClick4}>
           Ajouter un article
         </button>
+
         <ul>
-          {articles.map(({ title, pseudo }) => (
+          {data.map((article) => (
             <li>
-              <div className="composition-post"  onClick={handleClick5}>
-                <div className="post-title">{title}</div>
-                <div className="post-id">{pseudo}</div>
+              <div className="composition-post" onClick={handleClick5}>
+                <div className="post-title">{article.title}</div>
+                <div className="post-id">{article.pseudo}</div>
               </div>
             </li>
-          ))}
+          ))};
         </ul>
       </div>
     </div>

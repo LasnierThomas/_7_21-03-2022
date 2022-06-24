@@ -80,13 +80,17 @@ const PostWrite = () => {
         ></input>
       </div>
       <div className="all-comment">
-        <h3 className="title-write"
-          onChange={(e) => setTitle(e.target.value)} value={title}>
-        </h3>
+        <h3
+          className="title-write"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+        ></h3>
         <img className="img-write" src="img" alt={`img`}></img>
-        <p className="article-write"
-          onChange={(e) => setArticle(e.target.value)} value={article}>
-        </p>
+        <p
+          className="article-write"
+          onChange={(e) => setArticle(e.target.value)}
+          value={article}
+        ></p>
         <div className="block-comment">
           <label className="commentaire-txt" htmlFor="commentaire-txt">
             commenter par id
