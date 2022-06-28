@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PostContext } from "../Components/AppContext";
+import { ArticlesContext, UserContext } from "../Components/AppContext";
+import axios from "axios";
 import "../Styles/Article.css";
 
 const Article = () => {
-  const data = useContext(PostContext);
+  const articleContext = useContext(ArticlesContext);
   const navigate = useNavigate();
+  const user = useContext(UserContext);
+
+  const token = user.token;
   const handleClick1 = () => {
     navigate("/detente");
   };
@@ -19,10 +23,23 @@ const Article = () => {
   const handleClick5 = () => {
     navigate("/post");
   };
-
-  
-  
-
+  useState(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}api/articles`,
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        articleContext.setArticles(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        articleContext.setArticles([]);
+      });
+  }, []);
   return (
     <div className="all-block">
       <div className="block-menu">
@@ -40,14 +57,14 @@ const Article = () => {
         </button>
 
         <ul>
-          {data.map((article) => (
+          {articleContext.items.map((article) => (
             <li>
               <div className="composition-post" onClick={handleClick5}>
                 <div className="post-title">{article.title}</div>
                 <div className="post-id">{article.pseudo}</div>
               </div>
             </li>
-          ))};
+          ))}
         </ul>
       </div>
     </div>

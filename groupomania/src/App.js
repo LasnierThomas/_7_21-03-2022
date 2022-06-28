@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { UserContext } from './Components/AppContext';
-import Routes from './Components/Routes/index';
+import { ArticlesContext, UserContext } from "./Components/AppContext";
+import Routes from "./Components/Routes/index";
 // import cookie from 'js-cookie';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [items, setItems] = useState([]);
 
   useState(() => {
     const u = localStorage.getItem("user");
@@ -18,8 +19,8 @@ const App = () => {
             url: `${process.env.REACT_APP_API_URL}api/auth/login`,
             withCredentials: true,
             headers: {
-              "Authorization": `Bearer ${storedUser.token}`,
-            }
+              Authorization: `Bearer ${storedUser.token}`,
+            },
           })
             .then((res) => {
               setUser(res.data);
@@ -29,33 +30,41 @@ const App = () => {
               console.log(err);
               setUser("");
               localStorage.setItem("user", "undefined");
-              window.href = '/login';
+              window.href = "/login";
             });
         };
         if (storedUser) {
           setUser(storedUser);
           updateUser();
         } else {
-          window.href = '/login';
+          window.href = "/login";
         }
       } catch (SyntaxError) {
         setUser(undefined);
         localStorage.setItem("user", "");
       }
     } else {
-      window.href = '/login';
+      window.href = "/login";
       setUser(undefined);
       localStorage.setItem("user", "");
     }
   }, []);
 
-
   return (
-    <UserContext.Provider value={{
-      ...user,
-      setUser,
-    }}>
-      <Routes />
+    <UserContext.Provider
+      value={{
+        ...user,
+        setUser,
+      }}
+    >
+      <ArticlesContext.Provider
+        value={{
+          items,
+          setArticles: setItems,
+        }}
+      >
+        <Routes />
+      </ArticlesContext.Provider>
     </UserContext.Provider>
   );
 };

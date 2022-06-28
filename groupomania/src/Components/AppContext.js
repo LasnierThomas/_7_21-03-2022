@@ -8,19 +8,24 @@ export const UserContext = createContext({
     setUser: (user) => { }
 });
 
-export const PostContext = () => {
-  const data = [
+export const ArticlesContext = createContext({
+  items: [
     {
       title: "title article",
       pseudo: "toto",
       article:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet vitae illo ipsa, itaque dicta, illum quo consectetur pariatur perspiciatis eveniet voluptatibus veritatis ex sint totam, ipsum necessitatibus nostrum quas? Odit.",
-
-      setArticle: (article) => {},
     },
-  ];
-};
-    
+    {
+      title: "title article 2",
+      pseudo: "toto",
+      article:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet vitae illo ipsa, itaque dicta, illum quo consectetur pariatur perspiciatis eveniet voluptatibus veritatis ex sint totam, ipsum necessitatibus nostrum quas? Odit.",
+    },
+  ],
+  setArticles: (articles) => {},
+});
+
 
 
 
