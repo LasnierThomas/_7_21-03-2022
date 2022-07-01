@@ -3,28 +3,30 @@ const connection = require('../sql/dbconnection');
 
 
 
-// exports.getAllComments = (req, res, next) => {
-//     connection.query(`SELECT * FROM Comment WHERE idComment= ?`,
-//         req.params.id,
-//         (error, result) => {
-//             if (error) {
-//                 return res.status(400).json({ error });
-//             }
-//             return res.status(200).json(result);
-//         },
-//     );
-// };
+exports.getAllComments = (req, res, next) => {
+  connection.query(`SELECT * FROM Comment `, req.params.id, (error, result) => {
+    if (error) {
+      return res.status(400).json({ error });
+    }
+    return res.status(200).json(result);
+  });
+};
 
-// exports.createComments = (req, res, next) => {
-//     connection.query(`INSERT INTO Comment (pseudo, text) VALUES (${req.body.text},${req.body.pseudo}),`,
-//         function (error, results, fields) {
-//             if (!results) {
-//                 res.status(201).json(JSON.stringify(results))
-//             }
-//             return res.status(401).json({ error: 'Commentaire non crée' })
-
-//         });
-// };
+exports.createComments = (req, res, next) => {
+  const user = req.auth;
+  if (!user) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
+  connection.query(
+    `INSERT INTO Comment (text, pseudo) VALUES ('${req.body.comment}','${user.pseudo}')`,
+    function (error, results, fields) {
+      if (!results) {
+        return res.status(400).json({ error: "Commentaire non crée" });
+      }
+      return res.status(201).json(JSON.stringify(results[0]));
+    }
+  );
+};
 
 // exports.modifyComments = (res, req, next) => {
 //     connection.query(`UPDATE Comment SET (${req.body.text}),`)

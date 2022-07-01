@@ -14,7 +14,7 @@ const NewPost = () => {
         const titleError = document.querySelector('.title.error');
         const descriptionError = document.querySelector('.description.error');
         const token = user.token;
-
+        
         axios({
             method: 'post',
             url: `${process.env.REACT_APP_API_URL}api/articles`,
@@ -27,6 +27,7 @@ const NewPost = () => {
                 "Authorization": `Bearer ${token}`
             }
         })
+       
             .then((res) => {
                 if (res.data.errors) {
                     titleError.innerHTML = res.data.errors.title;

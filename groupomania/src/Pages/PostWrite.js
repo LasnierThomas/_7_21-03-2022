@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { CommentPost } from "../Components/AppContext";
+import { CommentPost, UserContext } from "../Components/AppContext";
 import { PostContext } from "../Components/AppContext";
 import "../Styles/PostWrite.css";
 import axios from "axios";
@@ -8,38 +8,46 @@ const PostWrite = () => {
   const [title, setTitle] = useState("");
   const [article, setArticle] = useState("");
   const [pseudo, setPseudo] = useState("");
-  // const [comment, setComent] = useState('');
-//   const articles = useContext(PostContext);
+  const [comment, setComment] = useState("");
+  const user = useContext(UserContext);
 
-  axios({
-    method: "get",
-    url: `${process.env.REACT_APP_API_URL}api/articles`,
-    withCredentials: true,
-    data: {
-      title,
-      article,
-    },
-  });
+  //   const articles = useContext(PostContext);
+  const handlePost = (e) => {
+    e.preventDefault();
+    const token = user.token;
 
-  const deleteArticle = (userId) => {
-    fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
-      method: "DELETE",
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.warn(resp);
-      });
+    axios({
+      method: "post",
+      url: `${process.env.REACT_APP_API_URL}api/comments`,
+      withCredentials: true,
+      data: {
+        comment,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
   };
 
-  const deleteComment = (userId) => {
-    fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
-      method: "DELETE",
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.warn(resp);
-      });
-    });
-  };
+  // const deleteArticle = (userId) => {
+  //   fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
+  //     method: "DELETE",
+  //   }).then((result) => {
+  //     result.json().then((resp) => {
+  //       console.warn(resp);
+  //     });
+  //   });
+  // };
+
+  // const deleteComment = (userId) => {
+  //   fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
+  //     method: "DELETE",
+  //   }).then((result) => {
+  //     result.json().then((resp) => {
+  //       console.warn(resp);
+  //     });
+  //   });
+  // };
 
   // axios({
   //     method: 'put',
@@ -91,18 +99,19 @@ const PostWrite = () => {
           onChange={(e) => setArticle(e.target.value)}
           value={article}
         ></p>
-        <div className="block-comment">
-          <label className="commentaire-txt" htmlFor="commentaire-txt">
-            commenter par id
-          </label>
-          <textarea
-            className="areaTxt"
-            type="text"
-            name="commentaire"
-            id="commentaire"
-          />
-          <button className="btn-comment">poster</button>
-        </div>
+        <form action="" onSubmit={handlePost} id="comment">
+          <div className="block-comment">
+            <textarea
+              className="areaTxt"
+              type="text"
+              name="commentaire"
+              id="commentaire"
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
+            />
+            <input className="btn-comment" type="submit" value="Poster" />
+          </div>
+        </form>
 
         <ul className="comment-write">
           {CommentPost.map((comment) => (

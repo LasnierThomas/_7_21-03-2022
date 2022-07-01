@@ -3,13 +3,6 @@ const fs = require('fs');
 const connection = require('../sql/dbconnection');
 
 
-// var Articles = {
-//     pseudo: String,
-//     title: String,
-//     text: String,
-//     imageURL: String
-// };
-
 
 exports.getAllArticles = (req, res, next) => {
   connection.query(
