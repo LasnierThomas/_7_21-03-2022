@@ -6,7 +6,7 @@ const connection = require('../sql/dbconnection');
 
 exports.getAllArticles = (req, res, next) => {
   connection.query(
-    `SELECT title, pseudo FROM Article `,
+    `SELECT id, title, pseudo FROM Article `,
     req.params.id,
     (error, result) => {
       if (error) {
@@ -20,16 +20,16 @@ exports.getAllArticles = (req, res, next) => {
 
 exports.getOneArticles = (req, res, next) => {
   connection.query(
-    `SELECT * FROM Article WHERE title=${req.body.title} LIMIT 1;`,
+    `SELECT * FROM Article WHERE id=${req.params.id} LIMIT 1;`,
     function (error, results, fields) {
       if (error) {
         return res.status(400).json({ error });
       }
       if (!results || results.length == 0) {
-        return res.status(401).json({ error: "Artcile trouvé" });
+        return res.status(401).json({ error: "Article trouvé" });
       }
-      Articles = results[0];
-      return res.status(200).json(Articles);
+      const article = results[0];
+      return res.status(200).json(article);
     }
   );
 };
@@ -48,7 +48,7 @@ exports.createArticles = (req, res, next) => {
 
   // 2/ Act => je crée mon article
   connection.query(
-    `INSERT INTO Article (title, text, pseudo) VALUES ('${req.body.title}', '${req.body.description}','${user.pseudo}')`,
+    `INSERT INTO Article (title, text, pseudo) VALUES ("${connection.escape(req.body.title)}", "${connection.escape(req.body.description)}","${connection.escape(user.pseudo)}")`,
     function (error, results, fields) {
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });

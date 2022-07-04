@@ -1,3 +1,4 @@
+-- SQLBook: Code
 CREATE TABLE Article(
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     pseudo VARCHAR(255),

@@ -1,17 +1,51 @@
 import React, { useContext, useState } from "react";
 import { CommentPost, UserContext } from "../Components/AppContext";
+import { useParams } from "react-router-dom";
 import { PostContext } from "../Components/AppContext";
 import "../Styles/PostWrite.css";
 import axios from "axios";
 
 const PostWrite = () => {
-  const [title, setTitle] = useState("");
-  const [article, setArticle] = useState("");
-  const [pseudo, setPseudo] = useState("");
-  const [comment, setComment] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [pseudo, setPseudo] = useState("");
+  
   const user = useContext(UserContext);
+  const params = useParams();
+  const [article, setArticle] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
 
-  //   const articles = useContext(PostContext);
+  useState(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}api/articles/${params.articleId}`,
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => {
+        setArticle(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}api/comments/${params.articleId}`,
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const handlePost = (e) => {
     e.preventDefault();
     const token = user.token;
@@ -21,6 +55,7 @@ const PostWrite = () => {
       url: `${process.env.REACT_APP_API_URL}api/comments`,
       withCredentials: true,
       data: {
+        articleId: params.articleId,
         comment,
       },
       headers: {
@@ -67,13 +102,13 @@ const PostWrite = () => {
   //         comment,
   //     },
   // })
-
+  if (!article) return <div></div>;
   return (
     <div className=" block-parents">
       <span
         className="id-write"
-        onChange={(e) => setPseudo(e.target.value)}
-        value={pseudo}
+        // onChange={(e) => setPseudo(e.target.value)}
+        value={article.pseudo}
       ></span>
       <div className="btn-modif">
         <input
@@ -90,15 +125,15 @@ const PostWrite = () => {
       <div className="all-comment">
         <h3
           className="title-write"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
+          // onChange={(e) => setTitle(e.target.value)}
+          value={article.title}
         ></h3>
         <img className="img-write" src="img" alt={`img`}></img>
-        <p
+        {/* <p
           className="article-write"
           onChange={(e) => setArticle(e.target.value)}
           value={article}
-        ></p>
+        ></p> */}
         <form action="" onSubmit={handlePost} id="comment">
           <div className="block-comment">
             <textarea
@@ -114,10 +149,10 @@ const PostWrite = () => {
         </form>
 
         <ul className="comment-write">
-          {CommentPost.map((comment) => (
+          {comments && comments.map((comment) => (
             <li>
-              <p className="id-txt">{comment.id}</p>
-              <p className="comment"> {comment.comment}</p>
+              <p className="id-txt">{comment.pseudo}</p>
+              <p className="comment"> {comment.text}</p>
               <input
                 className="btn-post"
                 type="submit"

@@ -20,8 +20,8 @@ const Article = () => {
     navigate("/newpost");
   };
 
-  const handleClick5 = () => {
-    navigate("/post");
+  const handleClick5 = (articleId) => {
+    navigate(`/post/${articleId}`);
   };
   useState(() => {
     axios({
@@ -33,6 +33,7 @@ const Article = () => {
       },
     })
       .then((res) => {
+        console.log(res.data)
         articleContext.setArticles(res.data);
       })
       .catch((err) => {
@@ -59,7 +60,7 @@ const Article = () => {
         <ul>
           {articleContext.items.map((article) => (
             <li>
-              <div className="composition-post" onClick={handleClick5}>
+              <div className="composition-post" onClick={() => handleClick5(article.id)}>
                 <div className="post-title">{article.title}</div>
                 <div className="post-id">{article.pseudo}</div>
               </div>
