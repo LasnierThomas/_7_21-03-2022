@@ -35,6 +35,9 @@ exports.getOneArticles = (req, res, next) => {
 };
 
 exports.createArticles = (req, res, next) => {
+  const pictureObject = JSON.parse(req.body.picture);
+  delete pictureObject._id;
+  delete pictureObject._userId;
   // 1/ Verify
   // Vérifier l'authentification
   const user = req.auth;
@@ -53,6 +56,23 @@ exports.createArticles = (req, res, next) => {
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });
       }
+      
+        const picture = new Article({
+          ...pictureObject,
+          userId: req.auth.userId,
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+          }`,
+        });
+
+        picture
+          .save()
+          .then(() => {
+            res.status(201).json({ message: "Objet enregistré !" });
+          })
+          .catch((error) => {
+            res.status(400).json({ error });
+          });
 
       // 3/ Je renvoie ce qu'il faut
 
