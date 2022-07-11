@@ -107,16 +107,8 @@ const PostWrite = () => {
     <div className=" block-parents">
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
-        <input
-          className="btn-post"
-          type="submit"
-          /*</div>onClick={() => modifyArticle(user.email)}*/ value="Modifier"
-        ></input>
-        <input
-          className="btn-post"
-          type="submit"
-          /*onClick={() => deleteArticle(user.email)}*/ value="Supprimer"
-        ></input>
+        <input className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/ value="Modifier"></input>
+        <input className="btn-post" type="submit" /*onClick={() => deleteArticle(user.email)}*/ value="Supprimer"></input>
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
@@ -124,39 +116,19 @@ const PostWrite = () => {
         {<p className="article-write"> {article.text}</p>}
         <form action="" onSubmit={handlePost} id="comment">
           <div className="block-comment">
-            <textarea
-              className="areaTxt"
-              type="text"
-              name="commentaire"
-              id="commentaire"
-              onChange={(e) => setComment(e.target.value)}
-              value={comment}
-            />
-            <input
-              className="btn-comment"
-              type="submit"
-              onClick={refreshPage}
-              value="Poster"
-            />
+            <textarea className="areaTxt" type="text" name="commentaire" id="commentaire" onChange={(e) => setComment(e.target.value)} value={comment} />
+            <input className="btn-comment" type="submit" onClick={refreshPage} value="Poster" />
           </div>
         </form>
 
         <ul className="comment-write">
           {comments &&
             comments.map((comment) => (
-              <li>
+              <li className='li-post'>
                 <p className="id-txt">{comment.pseudo}</p>
                 <p className="comment"> {comment.text}</p>
-                <input
-                  className="btn-post"
-                  type="submit"
-                  /*</div>onClick={() => modifyComment(user.email)}*/ value="Modifier"
-                ></input>
-                <input
-                  className="btn-post"
-                  type="submit"
-                  /*onClick={() => deleteComment(user.email)}*/ value="Supprimer"
-                ></input>
+                <input className="btn-post" type="submit" /*</div>onClick={() => modifyComment(user.email)}*/ value="Modifier"></input>
+                <input className="btn-post" type="submit" /*onClick={() => deleteComment(user.email)}*/ value="Supprimer"></input>
               </li>
             ))}
         </ul>

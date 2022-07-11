@@ -59,7 +59,7 @@ const Article = () => {
 
         <ul>
           {articleContext.items.map((article) => (
-            <li>
+            <li className='li-post'>
               <div className="composition-post" onClick={() => handleClick5(article.id)}>
                 <div className="post-title">{article.title}</div>
                 <div className="post-id">{article.pseudo}</div>

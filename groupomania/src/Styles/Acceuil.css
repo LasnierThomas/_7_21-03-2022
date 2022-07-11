@@ -25,9 +25,18 @@
   width: 260px;
 }
 
+.button:hover{
+  transition: all 0s ease-in-out;
+  transform: scale(1.1);
+  background-color: white;
+  border: black 1px solid;
+  opacity: 0.9;
+}
+
 .button:active {
   transition: all 0s ease-in-out;
   transform: scale(0.8);
+  background-color: rgba(255, 14, 14, 0.719);;
   box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
   opacity: 0.9;
 }

@@ -26,9 +26,17 @@
   right: 10%;
   color: rgb(255, 14, 14, 0.719);
 }
+.power:hover{
+transition: all 0s ease-in-out;
+  transform: scale(1.1);
+  color: rgb(253, 213, 213);
+  opacity: 0.9;
+}
+
 .power:active {
   transition: all 0s ease-in-out;
   transform: scale(0.8);
+  color: rgb(255, 14, 14, 0.719);
   opacity: 0.9;
 }
 
@@ -39,8 +47,16 @@
   color: rgb(255, 14, 14, 0.719);
 }
 
+.profil:hover{
+transition: all 0s ease-in-out;
+  transform: scale(1.1);
+  color: rgb(253, 213, 213);
+  opacity: 0.9;
+}
+
 .profil:active {
   transition: all 0s ease-in-out;
+  color: rgb(255, 14, 14, 0.719);
   transform: scale(0.8);
   opacity: 0.9;
 }
