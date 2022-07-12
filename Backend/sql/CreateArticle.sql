@@ -5,3 +5,8 @@ CREATE TABLE Article(
     title VARCHAR(255),
     text VARCHAR(10000),
 ) DEFAULT CHARSET UTF8;
+-- SQLBook: Code
+
+ALTER TABLE Article
+ADD imageUrl VARCHAR(1000)
+

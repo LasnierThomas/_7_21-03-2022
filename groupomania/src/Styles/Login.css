@@ -83,6 +83,7 @@ li {
 #register{
   background:  rgba(255, 14, 14, 0.719);
   border-radius: 20px;
+  margin-top: 10px;
 }
 
 #register:hover{

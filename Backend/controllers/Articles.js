@@ -35,7 +35,7 @@ exports.getOneArticles = (req, res, next) => {
 };
 
 exports.createArticles = (req, res, next) => {
-  const articleObject = JSON.parse(req.body.Articles);
+  const articleObject = JSON.parse(req.body.json);
   delete articleObject._id;
   delete articleObject._userId;
   // 1/ Verify
@@ -45,32 +45,18 @@ exports.createArticles = (req, res, next) => {
     return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
   // Vérifier que je respecte les conditions de création d'un article
-  if (!req.body.title || req.body.title.length > 128) {
+  if (!articleObject.title || articleObject.title.length > 128) {
     return res.status(400).json({ error: "Titre incorrect" });
   }
 
   // 2/ Act => je crée mon article
   connection.query(
-    `INSERT INTO Article (title, text, pseudo) VALUES ("${connection.escape(req.body.title)}", "${connection.escape(req.body.description)}","${connection.escape(user.pseudo)}")`,
+    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES ("${connection.escape(articleObject.title)}", "${connection.escape(articleObject.description)}","${connection.escape(user.pseudo)}", "??")`,
     function (error, results, fields) {
+      console.debug(error);
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });
       }
-
-      const picture = new Article({
-        ...articleObject,
-        userId: req.auth.userId,
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-      });
-
-      picture
-        .save()
-        .then(() => {
-          res.status(201).json({ message: "Objet enregistré !" });
-        })
-        .catch((error) => {
-          res.status(400).json({ error });
-        });
 
       // 3/ Je renvoie ce qu'il faut
 
