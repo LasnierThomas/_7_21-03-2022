@@ -48,7 +48,7 @@ const PostWrite = () => {
       });
   }, []);
 
-  const handlePost = (e) => {
+  const addComment = (e) => {
     e.preventDefault();
     const token = user.token;
 
@@ -76,15 +76,22 @@ const PostWrite = () => {
   //   });
   // };
 
-  // const deleteComment = (userId) => {
-  //   fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
-  //     method: "DELETE",
-  //   }).then((result) => {
-  //     result.json().then((resp) => {
-  //       console.warn(resp);
-  //     });
-  //   });
-  // };
+  const deleteComment = (commentId) => {
+    fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
+      method: "DELETE",
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }).then((result) => {
+      // j'enleve le commentaire de la ui
+      if (result.ok()) {
+        setComments(
+          comments.filter(comment => comment.id !== commentId)
+        );
+      }
+    })
+  };
 
   // axios({
   //     method: 'put',
@@ -96,14 +103,26 @@ const PostWrite = () => {
   //     },
   // })
 
-  // axios({
-  //     method: 'put',
-  //     url: `${process.env.REACT_APP_API_URL}api/articles`,
-  //     withCredentials: true,
-  //     data: {
-  //         comment,
-  //     },
-  // })
+
+  const modifyComment = (commentId) => {
+    fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
+      method: "PUT",
+      withCredentials: true,
+      data: {
+          text: comment,
+      },
+    }).then((result) => {
+      result.json().then((resp) => {
+        console.warn(resp);
+      });
+      // j'enleve le commentaire de la ui
+      setComments(
+        comments.filter(comment => comment.id === commentId)
+      );
+    }).error((error) => {
+
+    });
+  };
   if (!article) return <div></div>;
   return (
     <div className=" block-parents">
@@ -120,9 +139,10 @@ const PostWrite = () => {
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
-        <img className="img-write" src={article.imageUrl} alt={`img`}></img>
+        <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
+        
         <p className="article-write"> {article.text}</p>
-        <form action="" onSubmit={handlePost} id="comment">
+        <form action="" onSubmit={addComment} id="comment">
           <div className="block-comment">
             <textarea className="areaTxt" type="text" name="commentaire" id="commentaire" onChange={(e) => setComment(e.target.value)} value={comment} />
             <input className="btn-comment" type="submit" onClick={refreshPage} value="Poster" />
@@ -136,8 +156,8 @@ const PostWrite = () => {
                 <p className="id-txt">{comment.pseudo}</p>
                 <p className="comment"> {comment.text}</p>
                 <div className="btn-modif">
-                  <span className="btn-post" type="submit" /*</div>onClick={() => modifyComment(user.email)}*/ > Modifier </span>
-                  <span className="btn-post" type="submit" /*onClick={() => deleteComment(user.email)}*/ > Supprimer </span>
+                  <span className="btn-post" type="submit" onClick={() => modifyComment(comment.id)} > Modifier </span>
+                  <span className="btn-post" type="submit" onClick={() => deleteComment(comment.id)}> Supprimer </span>
                 </div>
               </li>
             ))}

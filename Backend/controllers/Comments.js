@@ -34,23 +34,28 @@ exports.createComments = (req, res, next) => {
 };
   
   
-// exports.modifyComments = (res, req, next) => {
-//     connection.query(`UPDATE Comment SET (${req.body.text}),`)
-//     Comments.updateOne({ _id: req.params.id }, { ...CommentsObject, _id: req.params.id }) // TODO: créer une requête SQL
-//         .then(() => res.status(200).json({ message: 'Commentaire modifié' }))
-//         .catch(error => res.status(400).json({ error }));
+exports.modifyComments = (res, req, next) => {
+  // TODO: vérifier que l'utilisateur est bien le bon
+  connection.query(`UPDATE Comment WHERE id=${req.params.id} SET text=${connection.escape(req.body.text)}`, function (error, results, fields) {
+    console.log(error)
+    if (!results) {
+      return res.status(400).json({ error: "commentaire non modifiable" });
+    }
+    return res.status(200).json({ message: "Commentaire modifié" });
+  });
+};
 
-// };
-
-// exports.deleteComments = (req, res, next) => {
-
-//     connection.query(`DELETE FROM Comment WHERE pseudo="${req.params.userId}" LIMIT 1;`,
-//         function (error, results, fields) {
-//             console.log(error)
-//             if (results) {
-//                 return res.status(200).json({ message: 'Commentaire supprimé' });
-//             } else {
-//                 res.status(400).json({ error: 'Impossible de supprimer' });
-//             }
-//         });
-// };
+exports.deleteComments = (req, res, next) => {
+  // TODO: vérifier que l'utilisateur est bien le bon
+  // 1/ Je récupère le commentaire => je peux savoir quel est l'id user
+  // 2/ Je regarde si mon utilisateur actuel est admin
+    connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`,
+        function (error, results, fields) {
+            console.log(error)
+            if (results) {
+                return res.status(200).json({ message: 'Commentaire supprimé' });
+            } else {
+                res.status(400).json({ error: 'Impossible de supprimer' });
+            }
+        });
+};

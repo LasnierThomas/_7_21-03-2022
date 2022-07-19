@@ -120,7 +120,7 @@
     display: flex;
     flex-direction: column;
     text-align: justify;
-    width: 430px;
+    width: 80%;
     border: solid 1px rgb(255, 14, 14, 0.719);
     border-radius: 10px;
     margin: 2px 50px;
@@ -130,8 +130,6 @@
     display: flex;
     justify-content: flex-start;
     margin: 15px 0 -8px 0;
-  
-    
 }
 
 .comment{

@@ -29,6 +29,7 @@ exports.getOneArticles = (req, res, next) => {
         return res.status(401).json({ error: "Article trouvé" });
       }
       const article = results[0];
+      console.debug(article);
       return res.status(200).json(article);
     }
   );
@@ -48,18 +49,15 @@ exports.createArticles = (req, res, next) => {
   if (!articleObject.title || articleObject.title.length > 128) {
     return res.status(400).json({ error: "Titre incorrect" });
   }
-
+  const imageUrl = req.file.filename;
   // 2/ Act => je crée mon article
   connection.query(
-    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES ("${connection.escape(articleObject.title)}", "${connection.escape(articleObject.description)}","${user.pseudo}", "${articleObject.imageUrl}")`,
+    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES (${connection.escape(articleObject.title)}, ${connection.escape(articleObject.description)},${connection.escape(user.pseudo)}, ${connection.escape(imageUrl)})`,
     function (error, results, fields) {
-      console.debug(articleObject.imageUrl);
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });
       }
-      
       // 3/ Je renvoie ce qu'il faut
-      
       return res.status(201).json(JSON.stringify(results[0]));
     }
     );
