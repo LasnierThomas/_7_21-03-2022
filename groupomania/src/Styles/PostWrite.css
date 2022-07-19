@@ -13,30 +13,27 @@
 
 .btn-modif{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 15px;
  }
 
 .btn-post{
-  background-color: rgba(255, 14, 14, 0.719);
-  border-radius: 20px;
-  border: solid 2px rgb(253, 213, 213);
   width: 70px;
-  font-size: 10px;
+  font-size: 14px;
+  
 }
 
 .btn-post:hover{
   transition: all 0s ease-in-out;
   transform: scale(1.1);
-  background-color: white;
-  border: black 1px solid;
+  color: rgba(255, 14, 14, 0.719);
   opacity: 0.9;
 }
 
 .btn-post:active{
     transition: all 0s ease-in-out;
     transform: scale(0.8);
-    background-color: rgba(255, 14, 14, 0.719);;
-    box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
+    font-weight: 700;
     opacity: 0.9;
 }
 
@@ -48,7 +45,8 @@
 
 .id-write{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-left: 9px;
 }
 
 .title-write{
@@ -122,6 +120,7 @@
     display: flex;
     flex-direction: column;
     text-align: justify;
+    width: 430px;
     border: solid 1px rgb(255, 14, 14, 0.719);
     border-radius: 10px;
     margin: 2px 50px;
@@ -130,12 +129,13 @@
 .id-txt{
     display: flex;
     justify-content: flex-start;
-    margin: 0;
+    margin: 15px 0 -8px 0;
+  
     
 }
 
 .comment{
-    border: solid 1px rgba(3, 3, 3, 0.719);
+    
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 2px;

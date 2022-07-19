@@ -51,18 +51,18 @@ exports.createArticles = (req, res, next) => {
 
   // 2/ Act => je crée mon article
   connection.query(
-    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES ("${connection.escape(articleObject.title)}", "${connection.escape(articleObject.description)}","${connection.escape(user.pseudo)}", "??")`,
+    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES ("${connection.escape(articleObject.title)}", "${connection.escape(articleObject.description)}","${user.pseudo}", "${articleObject.imageUrl}")`,
     function (error, results, fields) {
-      console.debug(error);
+      console.debug(articleObject.imageUrl);
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });
       }
-
+      
       // 3/ Je renvoie ce qu'il faut
-
+      
       return res.status(201).json(JSON.stringify(results[0]));
     }
-  );
+    );
 };
 
 // exports.modifyArticles = (res, req, next) => {

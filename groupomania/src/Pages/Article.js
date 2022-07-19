@@ -53,9 +53,9 @@ const Article = () => {
       </div>
       <div className="block-article">
         <h3 className="title-block">Articles</h3>
-        <button className="push-article" onClick={handleClick4}>
+        <span className="push-article" onClick={handleClick4}>
           Ajouter un article
-        </button>
+        </span>
 
         <ul>
           {articleContext.items.map((article) => (

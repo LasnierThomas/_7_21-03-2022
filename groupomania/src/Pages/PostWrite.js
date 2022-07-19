@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../Components/AppContext";
 import { useParams } from "react-router-dom";
+
 import "../Styles/PostWrite.css";
 import axios from "axios";
 
@@ -14,6 +15,7 @@ const PostWrite = () => {
   function refreshPage() {
     window.location.reload();
   }
+  
 
   useState(() => {
     axios({
@@ -107,13 +109,19 @@ const PostWrite = () => {
     <div className=" block-parents">
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
-        <input className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/ value="Modifier"></input>
-        <input className="btn-post" type="submit" /*onClick={() => deleteArticle(user.email)}*/ value="Supprimer"></input>
+        <span className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/>
+          {" "}
+          Modifier
+        </span>
+        <span className="btn-post" type="submit" /*onClick={() => deleteArticle(user.email)}*/>
+          {" "}
+          Supprimer
+        </span>
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
-        <img className="img-write" src="img" alt={`img`}></img>
-        {<p className="article-write"> {article.text}</p>}
+        <img className="img-write" src={article.imageUrl} alt={`img`}></img>
+        <p className="article-write"> {article.text}</p>
         <form action="" onSubmit={handlePost} id="comment">
           <div className="block-comment">
             <textarea className="areaTxt" type="text" name="commentaire" id="commentaire" onChange={(e) => setComment(e.target.value)} value={comment} />
@@ -124,11 +132,13 @@ const PostWrite = () => {
         <ul className="comment-write">
           {comments &&
             comments.map((comment) => (
-              <li className='li-post'>
+              <li className="li-post">
                 <p className="id-txt">{comment.pseudo}</p>
                 <p className="comment"> {comment.text}</p>
-                <input className="btn-post" type="submit" /*</div>onClick={() => modifyComment(user.email)}*/ value="Modifier"></input>
-                <input className="btn-post" type="submit" /*onClick={() => deleteComment(user.email)}*/ value="Supprimer"></input>
+                <div className="btn-modif">
+                  <span className="btn-post" type="submit" /*</div>onClick={() => modifyComment(user.email)}*/ > Modifier </span>
+                  <span className="btn-post" type="submit" /*onClick={() => deleteComment(user.email)}*/ > Supprimer </span>
+                </div>
               </li>
             ))}
         </ul>
@@ -138,3 +148,6 @@ const PostWrite = () => {
 };
 
 export default PostWrite;
+
+
+

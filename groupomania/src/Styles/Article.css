@@ -1,9 +1,10 @@
 .all-block {
   display: flex;
+  justify-content: center;
   border: none;
   background: rgb(253, 213, 213);
   min-width: 490px;
-  width: 70%;
+  width: 90%;
   text-align: center;
   margin: 200px auto;
   padding: 20px;
@@ -12,8 +13,8 @@
 .block-menu {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
-  border: solid 2px rgb(255, 14, 14, 0.719);
   border-radius: 20px;
   padding: 0 20px;
   
@@ -41,7 +42,7 @@
 .button-menu:active {
   transition: all 0s ease-in-out;
   transform: scale(0.8);
-  background-color: rgba(255, 14, 14, 0.719);;
+  background-color: rgba(255, 14, 14, 0.719);
   box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
   opacity: 0.9;
 }
@@ -49,12 +50,9 @@
 .push-article {
   display: flex;
   justify-content: center;
-  background-color: rgba(255, 14, 14, 0.719);
-  border-radius: 20px;
-  border: solid 2px rgb(253, 213, 213);
   font-size: 15px;
   padding: 5px;
-  font-weight: 300;
+  font-weight: 500;
   width: 150px;
   margin: 0 0 0 10px;
 }
@@ -62,14 +60,12 @@
 .push-article:hover {
   transition: all 0s ease-in-out;
   transform: scale(1.1);
-  background-color: white;
-  border: black 1px solid;
+  color:rgba(255, 14, 14, 0.719);
   opacity: 0.9;
 }
 .push-article:active {
   transition: all 0s ease-in-out;
   transform: scale(0.8);
-  box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
   opacity: 0.9;
 }
 
@@ -85,58 +81,54 @@
 
 
 ul {
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .composition-post {
+  border: 1px black solid;
   display: flex;
   justify-content: space-between;
-  border: solid rgb(255, 14, 14, 0.719) 1px;
   border-radius: 10px;
   padding: 5px;
-  margin: 2px auto;
+  margin: 15px auto;
 }
 
 .composition-post:hover{
   transition: all 0s ease-in-out;
   transform: scale(1.05);
-  border: solid rgb(255, 14, 14, 0.719) 2px solid;
+  background-color: white;
   opacity: 0.9;
 }
 
 .composition-post:active {
   transition: all 0s ease-in-out;
   transform: scale(0.95);
-  box-shadow: 0 3px 3px 3px rgb(175, 175, 175);
+  font-weight: 500;
+  color: rgb(255, 14, 14, 0.719);
   opacity: 0.9;
 }
 
 .post-title {
-  border: solid black 1px;
+  
   border-radius: 10px;
   padding: 5px;
   width: 78%;
 }
 
-.post-title:hover{
-  transition: all 0s ease-in-out;
-  background-color: white;
-  
-}
 
 .post-id {
-  border: solid black 1px;
+  
   border-radius: 10px;
   padding: 5px;
   width: 15%;
 }
 
 .li-post{
-
+  
+  display:contents;
   list-style: none;
   cursor: pointer;
   border-radius: 20px;
-  width: 450px;
   margin-bottom: 15px;
   transition: 0.2s;
 }
@@ -147,7 +139,7 @@ ul {
   .all-block{
     flex-direction: column;
     align-items: center;
-    width: 50vh;
+    width: 90%;
     min-width: 302px;
     margin: 200px auto;
   }
@@ -155,7 +147,7 @@ ul {
     margin-left: 0;
   }
   .block-article{
-    width: 427px;
+    width: 100%;
     margin-top: 15px;
   }
 }
@@ -172,7 +164,7 @@ ul {
   margin-left: 0;
 }
 .block-article{
-  width: 301px;
+  width:100%;
   margin-top: 15px;
 }
 
