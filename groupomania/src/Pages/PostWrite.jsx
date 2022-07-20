@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../Components/AppContext";
 import { useParams } from "react-router-dom";
-
 import "../Styles/PostWrite.css";
 import axios from "axios";
 
@@ -11,11 +10,11 @@ const PostWrite = () => {
   const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [articles, setArticles] = useState([]);
 
   function refreshPage() {
     window.location.reload();
   }
-  
 
   useState(() => {
     axios({
@@ -66,15 +65,19 @@ const PostWrite = () => {
     });
   };
 
-  // const deleteArticle = (userId) => {
-  //   fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
-  //     method: "DELETE",
-  //   }).then((result) => {
-  //     result.json().then((resp) => {
-  //       console.warn(resp);
-  //     });
-  //   });
-  // };
+  const deleteArticle = (articleId) => {
+    fetch(`${process.env.REACT_APP_API_URL}api/articles/${articleId}`, {
+      method: "DELETE",
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }).then((result) => {
+      if (result.ok()) {
+        setArticles(articles.filter((article) => article.id !== articleId));
+      }
+    });
+  };
 
   const deleteComment = (commentId) => {
     fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
@@ -86,11 +89,9 @@ const PostWrite = () => {
     }).then((result) => {
       // j'enleve le commentaire de la ui
       if (result.ok()) {
-        setComments(
-          comments.filter(comment => comment.id !== commentId)
-        );
+        setComments(comments.filter((comment) => comment.id !== commentId));
       }
-    })
+    });
   };
 
   // axios({
@@ -103,25 +104,22 @@ const PostWrite = () => {
   //     },
   // })
 
-
   const modifyComment = (commentId) => {
     fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
       method: "PUT",
       withCredentials: true,
       data: {
-          text: comment,
+        text: comment,
       },
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.warn(resp);
-      });
-      // j'enleve le commentaire de la ui
-      setComments(
-        comments.filter(comment => comment.id === commentId)
-      );
-    }).error((error) => {
-
-    });
+    })
+      .then((result) => {
+        result.json().then((resp) => {
+          console.warn(resp);
+        });
+        // j'enleve le commentaire de la ui
+        setComments(comments.filter((comment) => comment.id === commentId));
+      })
+      .error((error) => {});
   };
   if (!article) return <div></div>;
   return (
@@ -129,18 +127,16 @@ const PostWrite = () => {
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
         <span className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/>
-          {" "}
           Modifier
         </span>
-        <span className="btn-post" type="submit" /*onClick={() => deleteArticle(user.email)}*/>
-          {" "}
+        <span className="btn-post" type="submit" onClick={() => deleteArticle(article.id)}>
           Supprimer
         </span>
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
         <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
-        
+
         <p className="article-write"> {article.text}</p>
         <form action="" onSubmit={addComment} id="comment">
           <div className="block-comment">
@@ -156,8 +152,14 @@ const PostWrite = () => {
                 <p className="id-txt">{comment.pseudo}</p>
                 <p className="comment"> {comment.text}</p>
                 <div className="btn-modif">
-                  <span className="btn-post" type="submit" onClick={() => modifyComment(comment.id)} > Modifier </span>
-                  <span className="btn-post" type="submit" onClick={() => deleteComment(comment.id)}> Supprimer </span>
+                  <span className="btn-post" type="submit" onClick={() => modifyComment(comment.id)}>
+                    {" "}
+                    Modifier{" "}
+                  </span>
+                  <span className="btn-post" type="submit" onClick={() => deleteComment(comment.id)}>
+                    {" "}
+                    Supprimer{" "}
+                  </span>
                 </div>
               </li>
             ))}
@@ -168,6 +170,3 @@ const PostWrite = () => {
 };
 
 export default PostWrite;
-
-
-

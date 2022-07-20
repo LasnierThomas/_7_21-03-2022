@@ -77,28 +77,34 @@ exports.createArticles = (req, res, next) => {
 
 // };
 
-// exports.deleteArticles = (req, res, next) => {
+exports.deleteArticles = (req, res, next) => {
+  connection.query(`DELETE FROM Article WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, next) {
+    console.log(error);
+    if (results) {
+      return res.status(200).json({ message: "Article supprimé" });
+    } else {
+      res.status(400).json({ error: "Impossible de supprimer" });
+    }
+  });
+  // Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
+  //     .then(newArticle => {
+  //         const filename = newArticle.imageURL.split('/images/')[1];
+  //         fs.unlink(`images/${filename}`, () => {
+  //             Articles.deleteOne({ _id: req.params.id })
+  //                 .then(() => res.status(200).json({ message: 'Article Supprimé' }))
+  //                 .catch(error => res.status(400).json({ error }))
+  //         });
+  //     })
+  //     .catch(error => res.status(500).json({ error }));
 
-//     connection.query(`DELETE FROM Article WHERE id=${req.body.id} LIMITE 1;`,)
-//     Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
-//         .then(newArticle => {
-//             const filename = newArticle.imageURL.split('/images/')[1];
-//             fs.unlink(`images/${filename}`, () => {
-//                 Articles.deleteOne({ _id: req.params.id })
-//                     .then(() => res.status(200).json({ message: 'Article Supprimé' }))
-//                     .catch(error => res.status(400).json({ error }))
-//             });
-//         })
-//         .catch(error => res.status(500).json({ error }));
+  // Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
+  //     .then((newArticle) => {
+  //         if (!newArticle) {
+  //             return res.status(404).json({ error: new error('article non trouvé') });
+  //         }
+  //         if (newArticle.userId !== req.auth.userId) {
+  //             return res.status(401).json({ error: new error('Requête non autorisé') });
+  //         }
 
-//     Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
-//         .then((newArticle) => {
-//             if (!newArticle) {
-//                 return res.status(404).json({ error: new error('article non trouvé') });
-//             }
-//             if (newArticle.userId !== req.auth.userId) {
-//                 return res.status(401).json({ error: new error('Requête non autorisé') });
-//             }
-
-//         })
-// };
+  //     })
+};
