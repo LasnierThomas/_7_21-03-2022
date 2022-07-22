@@ -11,6 +11,7 @@ const PostWrite = () => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [articles, setArticles] = useState([]);
+  // const [article, setArticle] = useState("");
 
   function refreshPage() {
     window.location.reload();
@@ -94,15 +95,25 @@ const PostWrite = () => {
     });
   };
 
-  // axios({
+  // const modifyArticle = (articleId) => {
+  // fetch(`${process.env.REACT_APP_API_URL}api/articles/${articleId}`, {
   //     method: 'put',
-  //     url: `${process.env.REACT_APP_API_URL}api/articles`,
   //     withCredentials: true,
   //     data: {
   //         title,
   //         text,
+  //         imageUrl,
   //     },
   // })
+  // .then((result) => {
+  //       result.json().then((resp) => {
+  //         console.warn(resp);
+  //       });
+  //       // j'enleve les objet a modifier de la ui
+  //       setArticles(articles.filter((title, text, imageUrl) => article.id === articleId));
+  //     })
+  //     .error((error) => {});
+  // };
 
   const modifyComment = (commentId) => {
     fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
@@ -126,12 +137,12 @@ const PostWrite = () => {
     <div className=" block-parents">
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
-        <span className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/>
+        <button className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/>
           Modifier
-        </span>
-        <span className="btn-post" type="submit" onClick={() => deleteArticle(article.id)}>
+        </button>
+        <button className="btn-post" type="submit" onClick={() => deleteArticle(article.id)}>
           Supprimer
-        </span>
+        </button>
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
@@ -152,14 +163,12 @@ const PostWrite = () => {
                 <p className="id-txt">{comment.pseudo}</p>
                 <p className="comment"> {comment.text}</p>
                 <div className="btn-modif">
-                  <span className="btn-post" type="submit" onClick={() => modifyComment(comment.id)}>
-                    {" "}
-                    Modifier{" "}
-                  </span>
-                  <span className="btn-post" type="submit" onClick={() => deleteComment(comment.id)}>
-                    {" "}
-                    Supprimer{" "}
-                  </span>
+                  <button className="btn-post" type="submit" onClick={() => modifyComment(comment.id)}>
+                    Modifier
+                  </button>
+                  <button className="btn-post" type="submit" onClick={() => deleteComment(comment.id)}>
+                    Supprimer
+                  </button>
                 </div>
               </li>
             ))}

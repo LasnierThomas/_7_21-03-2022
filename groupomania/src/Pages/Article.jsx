@@ -53,11 +53,11 @@ const Article = () => {
       </div>
       <div className="block-article">
         <h3 className="title-block">Articles</h3>
-        <span className="push-article" onClick={handleClick4}>
+        <button className="push-article" onClick={handleClick4}>
           Ajouter un article
-        </span>
+        </button>
 
-        <ul>
+        <ul className='ul-article'>
           {articleContext.items.map((article) => (
             <li className='li-post'>
               <div className="composition-post" onClick={() => handleClick5(article.id)}>

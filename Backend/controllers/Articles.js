@@ -19,20 +19,17 @@ exports.getAllArticles = (req, res, next) => {
 };
 
 exports.getOneArticles = (req, res, next) => {
-  connection.query(
-    `SELECT * FROM Article WHERE id=${req.params.id} LIMIT 1;`,
-    function (error, results, fields) {
-      if (error) {
-        return res.status(400).json({ error });
-      }
-      if (!results || results.length == 0) {
-        return res.status(401).json({ error: "Article trouvé" });
-      }
-      const article = results[0];
-      console.debug(article);
-      return res.status(200).json(article);
+  connection.query(`SELECT * FROM Article WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+    if (error) {
+      return res.status(400).json({ error });
     }
-  );
+    if (!results || results.length == 0) {
+      return res.status(401).json({ error: "Article trouvé" });
+    }
+    const article = results[0];
+    console.debug(article);
+    return res.status(200).json(article);
+  });
 };
 
 exports.createArticles = (req, res, next) => {
@@ -52,7 +49,9 @@ exports.createArticles = (req, res, next) => {
   const imageUrl = req.file.filename;
   // 2/ Act => je crée mon article
   connection.query(
-    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES (${connection.escape(articleObject.title)}, ${connection.escape(articleObject.description)},${connection.escape(user.pseudo)}, ${connection.escape(imageUrl)})`,
+    `INSERT INTO Article (title, text, pseudo, imageUrl) VALUES (${connection.escape(articleObject.title)}, ${connection.escape(articleObject.description)}, ${connection.escape(
+      user.pseudo
+    )}, ${connection.escape(imageUrl)})`,
     function (error, results, fields) {
       if (!results) {
         return res.status(400).json({ error: "Post non crée" });
@@ -60,7 +59,7 @@ exports.createArticles = (req, res, next) => {
       // 3/ Je renvoie ce qu'il faut
       return res.status(201).json(JSON.stringify(results[0]));
     }
-    );
+  );
 };
 
 // exports.modifyArticles = (res, req, next) => {
@@ -78,14 +77,19 @@ exports.createArticles = (req, res, next) => {
 // };
 
 exports.deleteArticles = (req, res, next) => {
-  connection.query(`DELETE FROM Article WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, next) {
+  // const imageUrl = req.file.filename;
+  connection.query(`DELETE  FROM Article WHERE id=${connection.escape(req.params.id)} ;`, function (error, results, next) {
     console.log(error);
-    if (results) {
-      return res.status(200).json({ message: "Article supprimé" });
-    } else {
-      res.status(400).json({ error: "Impossible de supprimer" });
-    }
-  });
+    // const filename = imageUrl.split("/images/")[1];
+    // fs.unlink(`images/${filename}`, () => {
+      if (results) {
+        return res.status(200).json({ message: "Article supprimé" });
+      } else {
+        res.status(400).json({ error: "Impossible de supprimer" });
+      }
+    });
+  // });
+
   // Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
   //     .then(newArticle => {
   //         const filename = newArticle.imageURL.split('/images/')[1];

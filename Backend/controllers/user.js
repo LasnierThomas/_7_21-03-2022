@@ -7,7 +7,7 @@ exports.signup = (req, res, next) => {
 
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            connection.query(`INSERT INTO User (email, pseudo, password) VALUES ('${req.body.email}', '${req.body.pseudo}', '${hash}')`,
+            connection.query(`INSERT INTO User (email, pseudo, password) VALUES (${connection.escape(req.body.email)}, ${connection.escape(req.body.pseudo)}, ${connection.escape(hash)})`,
                 function (error, results, fields) {
                     if (!results || results.length == 0) {
                         return res.status(401).json({ error: "L'utilisateur n'a pas pu être créé" });
@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    connection.query(`SELECT * FROM User WHERE email="${req.body.email}" LIMIT 1;`,
+    connection.query(`SELECT * FROM User WHERE email=${connection.escape(req.body.email)} LIMIT 1;`,
         function (error, results, fields) {
             if (!results) {
                 return res.status(401).json({ error: 'email incorrect' });
@@ -54,7 +54,7 @@ exports.login = (req, res, next) => {
 
 exports.userInfo = (req, res, next) => {
     const user = req.auth;
-    connection.query(`SELECT * FROM User WHERE id="${user.userId}" LIMIT 1;`,
+    connection.query(`SELECT * FROM User WHERE id=${connection.escape(user.userId)} LIMIT 1;`,
         function (error, results, fields) {
             if (results) {
                 const user = results[0];
@@ -77,7 +77,7 @@ exports.userInfo = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
 
-    connection.query(`DELETE FROM User WHERE email="${req.params.userId}" LIMIT 1;`,
+    connection.query(`DELETE FROM User WHERE email=${connection.escape(req.params.userId)} LIMIT 1;`,
         function (error, results, fields) {
             console.log(error)
             if (results) {

@@ -51,6 +51,7 @@
   border: solid 2px rgb(253, 213, 213);
   padding: 10px;
   font-weight: bold;
+  font-family: 'LatoWeb';
 }
 
 .submit:hover {
