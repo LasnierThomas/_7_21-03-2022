@@ -27,7 +27,7 @@ exports.login = (req, res, next) => {
             }
             const user = results[0]
             const token = jwt.sign(
-                { userId: user.id },
+                { userId: user.id, pseudo: user.pseudo, isAdmin: user.pseudo === "toto3" },
                 'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h' }
             )
@@ -36,7 +36,8 @@ exports.login = (req, res, next) => {
                 pseudo: user.pseudo,
                 email: user.email,
                 userId: user.id,
-                token: token
+                token: token,
+                isAdmin: user.pseudo === "toto3"
             }
 
             console.log(response);
@@ -59,7 +60,7 @@ exports.userInfo = (req, res, next) => {
             if (results) {
                 const user = results[0];
                 const token = jwt.sign(
-                    { userId: user.id, pseudo: user.pseudo },
+                    { userId: user.id, pseudo: user.pseudo, isAdmin: user.pseudo === "toto3" },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                 )
@@ -67,7 +68,8 @@ exports.userInfo = (req, res, next) => {
                     pseudo: user.pseudo,
                     email: user.email,
                     userId: user.id,
-                    token: token
+                    token: token,
+                    isAdmin: user.pseudo === "toto3"
                 });
             } else {
                 res.status(400).json({ error: 'Impossible de trouvé l' / 'utilisateur' });

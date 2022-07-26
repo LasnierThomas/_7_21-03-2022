@@ -36,7 +36,7 @@ exports.modifyComments = (res, req, next) => {
   if (!user) {
     return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
-  connection.query(`UPDATE Comment WHERE id=${connection.escape(req.params.id)} SET text=${connection.escape(req.body.text)}`, function (error, results, fields) {
+  connection.query(`UPDATE FROM Comment WHERE id=${connection.escape(req.params.id)} SET text=${connection.escape(req.body.text)}`, function (error, results, fields) {
     console.log(error);
     if (!results) {
       return res.status(400).json({ error: "commentaire non modifiable" });
@@ -47,22 +47,46 @@ exports.modifyComments = (res, req, next) => {
 
 exports.deleteComments = (req, res, next) => {
   // TODO: vérifier que l'utilisateur est bien le bon
-  // const user = req.auth;
-
-  // if (user || user[0]) {
-  //   return res.status(200).json({ error: "Utilisateur autorisé" });
-  // } else {
-  //   return res.status(401).json({ error: "Utilisateur non authentifié" });
-  // }
+  const connectedUser = req.auth;
+  if (!connectedUser) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
   
   // 1/ Je récupère le commentaire => je peux savoir quel est l'id user
-  // 2/ Je regarde si mon utilisateur actuel est admin
-  connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+  connection.query(`SELECT * FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
     console.log(error);
-    if (results) {
-      return res.status(200).json({ message: "Commentaire supprimé" });
-    } else {
-      res.status(400).json({ error: "Impossible de supprimer" });
+    if (!results) {
+      return res.status(404).json({ error: "ce commentaire n'existe pas" });
     }
+    const comment = results[0];
+    const createdBy = comment.pseudo;
+
+    // 2/ Je regarde si mon utilisateur actuel est admin OU si c'est le créateur du commentaire
+    let canDeleteComment = false;
+    console.debug(connectedUser);
+    if (connectedUser.isAdmin) {
+      canDeleteComment = true;
+    }
+    else if (connectedUser.pseudo === createdBy) {
+      canDeleteComment = true;
+    }
+
+    // 3/ Si c'est ok, je supprime le commentaire, sinon je refuse la suppression
+    
+      if (canDeleteComment) {
+        // c'est ok!
+      connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+        console.log(error);
+        if (results) {
+          res.status(200).json({ message: "Commentaire supprimé" });
+        } else {
+          res.status(500).json({ error: "le commentaire n'a pas pu être supprimé" });
+        }
+      });
+      } else {
+        // c'est pas ok !
+        res.status(400).json({ error: "Utilisateur non autoriser" });
+    }
+
   });
 };

@@ -17,7 +17,8 @@
     border: black 1px solid;
   }
 
-  img{
+  .img-post{
+    display: flex;
     width: 100px;
     height: 100px;
   }
@@ -26,9 +27,14 @@
     transition: all 0s ease-in-out;
     transform: scale(0.8);
     opacity: 0.9;
+    
   }
 
-  
+
+  /* #block-img{
+    display: none;
+  } */
+
   .new {
     display: flex;
     flex-direction: column;
