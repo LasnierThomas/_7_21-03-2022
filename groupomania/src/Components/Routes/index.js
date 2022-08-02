@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Login from '../../Pages/Login';
 import Chat from '../../Pages/Chat';
@@ -13,14 +13,22 @@ import cookie from 'js-cookie';
 import logo2 from '../../Assets/logo2.png';
 import { FaPowerOff } from 'react-icons/fa';
 import { FaUserAlt } from 'react-icons/fa';
+import { UserContext } from '../AppContext';
 
 const Logout = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  function refreshPage() {
+    window.location.reload();
+  }
+  
+    // const  [setUser] = useContext(UserContext);
     let handleClick = () => {
         cookie.remove('jwt', {
             expires: 1
         })
-        navigate('/');
+        // setUser(undefined);
+        localStorage.setItem('user', "");
+        refreshPage(navigate("/"));
     }
     return (
       <div>

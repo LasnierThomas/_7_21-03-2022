@@ -27,10 +27,6 @@ export const ArticlesContext = createContext({
 });
 
 
-
-
-
-
 export const CommentPost = [
     {
         id: 'titi',

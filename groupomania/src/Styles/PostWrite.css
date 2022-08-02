@@ -15,7 +15,12 @@
     display: flex;
     justify-content: flex-start;
     margin-bottom: 15px;
-    
+ }
+
+ .btn-modif2{
+  display: flex;
+    justify-content: flex-start;
+    margin: 15px 0 10px -35px;
  }
 
 .btn-post{
@@ -56,11 +61,17 @@
 .title-write{
     font-size: 30px;   
 }
-
+.box-img{
+  display: flex;
+  width: 100%;
+}
 .img-write{
+    width: 100%;
     display: flex;
-    justify-content: center;
-    margin: 10px 50px
+    flex-wrap: wrap;
+    border-radius: 30px;
+    object-fit: cover;
+    
 }
 
 .article-write{
@@ -131,6 +142,8 @@
     border-radius: 10px;
     margin: 2px 50px;
 }
+
+
 
 .id-txt{
     display: flex;

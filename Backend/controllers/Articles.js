@@ -77,17 +77,44 @@ exports.createArticles = (req, res, next) => {
 // };
 
 exports.deleteArticles = (req, res, next) => {
-  // const imageUrl = req.file.filename;
-  connection.query(`DELETE  FROM Article WHERE id=${connection.escape(req.params.id)} ;`, function (error, results, next) {
-    console.log(error);
-    // const filename = imageUrl.split("/images/")[1];
-    // fs.unlink(`images/${filename}`, () => {
-      if (results) {
-        return res.status(200).json({ message: "Article supprimé" });
-      } else {
-        res.status(400).json({ error: "Impossible de supprimer" });
-      }
-    });
+  const connectedUser = req.auth;
+  if (!connectedUser) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
+  connection.query(`SELECT * FROM Article WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+    if (!results) {
+      console.log(error);
+      return res.status(404).json({ error: "cette article n'existe pas" });
+    }
+    const article = results[0];
+    const createdBy = article.pseudo;
+
+    let canDeleteArticle = false;
+    if (connectedUser.isAdmin) {
+      canDeleteArticle = true;
+    }
+    else if (connectedUser.pseudo === createdBy) {
+      canDeleteArticle = true;
+    }
+
+    if (canDeleteArticle) {
+      // const imageUrl = req.file.filename;
+      connection.query(`DELETE FROM Article WHERE id=${connection.escape(req.params.id)} ;`, function (error, results, fields) {
+        console.log(error);
+        // const filename = imageUrl.split("/images/")[1];
+        // fs.unlink(`images/${filename}`, () => {
+          if (results) {
+              res.status(200).json({ message: "Article supprimé" });
+            } else {
+              res.status(500).json({ error: "l'article n'a pas pu être supprimé" });
+            }
+      });
+    } else {
+      // c'est pas ok !
+      res.status(400).json({ error: "Utilisateur non autoriser" });
+    }
+  });
+};
   // });
 
   // Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
@@ -111,4 +138,3 @@ exports.deleteArticles = (req, res, next) => {
   //         }
 
   //     })
-};

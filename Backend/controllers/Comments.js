@@ -30,21 +30,6 @@ exports.createComments = (req, res, next) => {
   );
 };
 
-exports.modifyComments = (res, req, next) => {
-  // TODO: vérifier que l'utilisateur est bien le bon
-  const user = req.auth;
-  if (!user) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
-  }
-  connection.query(`UPDATE FROM Comment WHERE id=${connection.escape(req.params.id)} SET text=${connection.escape(req.body.text)}`, function (error, results, fields) {
-    console.log(error);
-    if (!results) {
-      return res.status(400).json({ error: "commentaire non modifiable" });
-    }
-    return res.status(200).json({ message: "Commentaire modifié" });
-  });
-};
-
 exports.deleteComments = (req, res, next) => {
   // TODO: vérifier que l'utilisateur est bien le bon
   const connectedUser = req.auth;
@@ -53,7 +38,7 @@ exports.deleteComments = (req, res, next) => {
   }
   
   // 1/ Je récupère le commentaire => je peux savoir quel est l'id user
-  connection.query(`SELECT * FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+  connection.query(`SELECT * FROM Comment WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
     console.log(error);
     if (!results) {
       return res.status(404).json({ error: "ce commentaire n'existe pas" });
@@ -75,7 +60,7 @@ exports.deleteComments = (req, res, next) => {
     
       if (canDeleteComment) {
         // c'est ok!
-      connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)} LIMIT 1;`, function (error, results, fields) {
+      connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
         console.log(error);
         if (results) {
           res.status(200).json({ message: "Commentaire supprimé" });
@@ -90,3 +75,44 @@ exports.deleteComments = (req, res, next) => {
 
   });
 };
+
+exports.editComments = (req, res, next) => {
+  const connectedUser = req.auth;
+  if (!connectedUser) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
+
+  connection.query(`SELECT * FROM Comment WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
+    if (!results) {
+      console.log(error);
+      return res.status(404).json({ error: "ce commentaire n'existe pas" });
+    }
+    const comment = results[0];
+    const createdBy = comment.pseudo;
+
+    // 2/ Je regarde si mon utilisateur actuel est admin OU si c'est le créateur du commentaire
+    let canModifyComment = false;
+    if (connectedUser.isAdmin) {
+      canModifyComment = true;
+    }
+    else if (connectedUser.pseudo === createdBy) {
+      canModifyComment = true;
+    }
+
+    if (canModifyComment) {
+      // c'est ok!
+      connection.query(`UPDATE Comment SET text=${connection.escape(req.body.text)} WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
+        console.log(error);
+        if (results) {
+          res.status(200).json({ message: "Commentaire modifié" });
+        } else {
+          res.status(500).json({ error: "le commentaire n'a pas pu être modifié" });
+        }
+      });
+    } else {
+      // c'est pas ok !
+      res.status(400).json({ error: "Utilisateur non autoriser" });
+    }
+
+  });
+}

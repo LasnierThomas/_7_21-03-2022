@@ -6,5 +6,5 @@ CREATE TABLE Comment(
 ) DEFAULT CHARSET UTF8;
 -- SQLBook: Code
 ALTER TABLE Comment
-ADD COLUMN articleId int,
+
 ADD FOREIGN KEY fk_article(articleId) REFERENCES Article(id) ON DELETE CASCADE;

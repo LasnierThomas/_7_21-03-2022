@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { FaFirstAid, FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import { UserContext } from "../Components/AppContext";
 import * as FormData from "form-data";
 import "../Styles/NewPost.css";
@@ -67,14 +67,15 @@ const NewPost = () => {
       <div className="block-parent">
         <div className="new">
           <h3 className="new-post">Poster votre article</h3>
+
           <div className="block-img" id="block-img">
             <label for="first">
-              <FaPlusCircle className="new-btn" id="new-btn" type="file" size="30px"></FaPlusCircle>
+              <FaPlusCircle className="new-btn" id="new-btn"  size="30px"></FaPlusCircle>
             </label>
             <input className="first" type="file" id="first" onChange={imageChange}></input>
             {selectedImage && (
               <div className="img-post">
-                <img src={URL.createObjectURL(selectedImage)} alt="image" />
+                <img className="img-dl" src={URL.createObjectURL(selectedImage)} alt="" />
               </div>
             )}
           </div>

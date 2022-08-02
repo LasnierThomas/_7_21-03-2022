@@ -11,7 +11,7 @@ const PostWrite = () => {
   const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  const [articles, setArticles] = useState([]);
+  // const [articles, setArticles] = useState([]);
   // const [article, setArticle] = useState("");
 
   function refreshPage() {
@@ -65,8 +65,8 @@ const PostWrite = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((res) => {
-      if (res.ok) refreshPage();
+    }).then((result) => {
+      if (result) refreshPage();
     });
   };
 
@@ -78,9 +78,7 @@ const PostWrite = () => {
         Authorization: `Bearer ${user.token}`,
       },
     }).then((result) => {
-      if (result.ok) {
-        setArticles(articles.filter((article) => article.id !== articleId));
-      }
+      if (result.ok) window.location = "/article";
     });
   };
 
@@ -139,7 +137,7 @@ const PostWrite = () => {
     <div className=" block-parents">
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
-        <button className="btn-post" type="submit" /*</div>onClick={() => modifyArticle(user.email)}*/>
+        <button className="btn-post" type="submit">
           Modifier
         </button>
         <button className="btn-post" type="submit" onClick={() => deleteArticle(article.id)}>
@@ -148,8 +146,9 @@ const PostWrite = () => {
       </div>
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
-        <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
-
+        <div className="box-img">
+          <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
+        </div>
         <p className="article-write"> {article.text}</p>
         <div id="comment">
           <div className="block-comment">
