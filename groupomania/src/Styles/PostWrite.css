@@ -17,10 +17,19 @@
     margin-bottom: 15px;
  }
 
+ 
+
  .btn-modif2{
   display: flex;
     justify-content: flex-start;
     margin: 15px 0 10px -35px;
+ }
+
+ .btn-modif3{
+    
+    width: 100%;
+    align-items: center;
+    margin: 15px 0 10px 0px;
  }
 
 .btn-post{
@@ -40,6 +49,31 @@
 }
 
 .btn-post:active{
+    transition: all 0s ease-in-out;
+    transform: scale(0.8);
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+
+
+.btn-post-modif{
+    display: flex;
+    font-size: 14px;
+    font-family: 'LatoWeb';
+    margin-bottom: 15px;
+    background: none;
+  border: none;
+ }
+
+.btn-post-modif:hover{
+  transition: all 0s ease-in-out;
+  transform: scale(1.1);
+  color: rgba(255, 14, 14, 0.719);
+  opacity: 0.9;
+}
+
+.btn-post-modif:active{
     transition: all 0s ease-in-out;
     transform: scale(0.8);
     font-weight: 700;
@@ -77,7 +111,7 @@
 .article-write{
     display: flex;
     text-align:justify;
-    margin: 50px;
+    margin: 50px 50px 50px 50px;
 }
 
 .block-comment{
@@ -99,6 +133,15 @@
    
     width: 80%;
     padding: 10px;
+    border-radius: 10px;
+    border-color: rgb(255, 14, 14, 0.719);
+}
+
+.areaTxt2{
+    width: 80%;
+    height: 100px;
+    padding: 10px;
+    margin-left: 86px;
     border-radius: 10px;
     border-color: rgb(255, 14, 14, 0.719);
 

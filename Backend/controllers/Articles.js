@@ -62,19 +62,40 @@ exports.createArticles = (req, res, next) => {
   );
 };
 
-// exports.modifyArticles = (res, req, next) => {
-//     const ArtcilesObject = req.file ?
-//         {
-//             ...JSON.parse(req.body.article),
-//             imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-//         } : { ...req.body };
+exports.editArticles = (req, res, next) => {
+  const connectedUser = req.auth;
+  if (!connectedUser) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
 
-//     connection.query(`UPDATE Article SET (${req.body.title}, ${req.body.text}),`)
-//     Articles.updateOne({ _id: req.params.id }, { ...ArtcilesObject, _id: req.params.id }) // TODO: créer une requête SQL
-//         .then(() => res.status(200).json({ message: 'Artcile modifié' }))
-//         .catch(error => res.status(400).json({ error }));
+  connection.query(`SELECT * FROM Article WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
+    if (!results) {
+      console.log(error);
+      return res.status(404).json({ error: "cette article n'existe pas" });
+    }
+    const article = results[0];
+    const createdBy = article.pseudo;
 
-// };
+    let canModifyArticle = false;
+    if (connectedUser.isAdmin) {
+      canModifyArticle = true;
+    } else if (connectedUser.pseudo === createdBy) {
+      canModifyArticle = true;
+    }
+    if (canModifyArticle) {
+      connection.query(`UPDATE Article SET text=${connection.escape(req.body.text)} WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
+        console.log(error);
+        if (results) {
+          res.status(200).json({ message: "article modifié" });
+        } else {
+          res.status(500).json({ error: "le texte n'a pas pu être modifié" });
+        }
+      });
+    } else {
+      res.status(400).json({ error: "Utilisateur non autoriser" });
+    }
+  });
+};
 
 exports.deleteArticles = (req, res, next) => {
   const connectedUser = req.auth;
@@ -92,8 +113,7 @@ exports.deleteArticles = (req, res, next) => {
     let canDeleteArticle = false;
     if (connectedUser.isAdmin) {
       canDeleteArticle = true;
-    }
-    else if (connectedUser.pseudo === createdBy) {
+    } else if (connectedUser.pseudo === createdBy) {
       canDeleteArticle = true;
     }
 
@@ -103,11 +123,11 @@ exports.deleteArticles = (req, res, next) => {
         console.log(error);
         // const filename = imageUrl.split("/images/")[1];
         // fs.unlink(`images/${filename}`, () => {
-          if (results) {
-              res.status(200).json({ message: "Article supprimé" });
-            } else {
-              res.status(500).json({ error: "l'article n'a pas pu être supprimé" });
-            }
+        if (results) {
+          res.status(200).json({ message: "Article supprimé" });
+        } else {
+          res.status(500).json({ error: "l'article n'a pas pu être supprimé" });
+        }
       });
     } else {
       // c'est pas ok !
@@ -115,26 +135,4 @@ exports.deleteArticles = (req, res, next) => {
     }
   });
 };
-  // });
-
-  // Articles.findOne({ _id: req.params.id })  // TODO: créer une requête SQL
-  //     .then(newArticle => {
-  //         const filename = newArticle.imageURL.split('/images/')[1];
-  //         fs.unlink(`images/${filename}`, () => {
-  //             Articles.deleteOne({ _id: req.params.id })
-  //                 .then(() => res.status(200).json({ message: 'Article Supprimé' }))
-  //                 .catch(error => res.status(400).json({ error }))
-  //         });
-  //     })
-  //     .catch(error => res.status(500).json({ error }));
-
-  // Articles.findOne({ _id: req.paramas.id })  // TODO: créer une requête SQL
-  //     .then((newArticle) => {
-  //         if (!newArticle) {
-  //             return res.status(404).json({ error: new error('article non trouvé') });
-  //         }
-  //         if (newArticle.userId !== req.auth.userId) {
-  //             return res.status(401).json({ error: new error('Requête non autorisé') });
-  //         }
-
-  //     })
+  

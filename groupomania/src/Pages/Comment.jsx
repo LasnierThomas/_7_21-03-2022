@@ -31,7 +31,7 @@ export const Comment = ({ user, comment, modifyComment, deleteComment }) => {
     <li className="li-post">
       <p className="id-txt">Commentaire créé par {comment.pseudo}</p>
       {isModifying ? (
-        /*====> remplacer par uen nouvelle div  btn avec valider et annuler*/ <div className="btn-modif2">
+        <div className="btn-modif2">
           <div className="block-comment">
             <textarea className="areaTxt" ref={newCommentArea} type="text" name="commentaire" id="commentaire" />
           </div>

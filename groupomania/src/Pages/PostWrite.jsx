@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { UserContext } from "../Components/AppContext";
 import { useParams } from "react-router-dom";
 import "../Styles/PostWrite.css";
@@ -11,12 +11,34 @@ const PostWrite = () => {
   const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  // const [articles, setArticles] = useState([]);
-  // const [article, setArticle] = useState("");
+  const [isModifying, modify] = useState(false);
+  const newTextArea = useRef(null);
 
   function refreshPage() {
     window.location.reload();
   }
+
+  const validText = (e) => {
+    e.preventDefault();
+    if (newTextArea === null) return;
+    const token = user.token;
+    axios({
+      method: "patch",
+      url: `${process.env.REACT_APP_API_URL}api/articles/${article.id}`,
+      withCredentials: true,
+      data: {
+        text: newTextArea.current.value,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((result) => {
+      if (result) {
+        article.text = newTextArea.current.value;
+        modify(false);
+      }
+    });
+  };
 
   useState(() => {
     axios({
@@ -94,26 +116,6 @@ const PostWrite = () => {
     });
   };
 
-  // const modifyArticle = (articleId) => {
-  // fetch(`${process.env.REACT_APP_API_URL}api/articles/${articleId}`, {
-  //     method: 'put',
-  //     withCredentials: true,
-  //     data: {
-  //         title,
-  //         text,
-  //         imageUrl,
-  //     },
-  // })
-  // .then((result) => {
-  //       result.json().then((resp) => {
-  //         console.warn(resp);
-  //       });
-  //       // j'enleve les objet a modifier de la ui
-  //       setArticles(articles.filter((title, text, imageUrl) => article.id === articleId));
-  //     })
-  //     .error((error) => {});
-  // };
-
   const modifyComment = (commentId) => {
     fetch(`${process.env.REACT_APP_API_URL}api/comments/${commentId}`, {
       method: "PUT",
@@ -137,9 +139,6 @@ const PostWrite = () => {
     <div className=" block-parents">
       <span className="id-write">{article.pseudo}</span>
       <div className="btn-modif">
-        <button className="btn-post" type="submit">
-          Modifier
-        </button>
         <button className="btn-post" type="submit" onClick={() => deleteArticle(article.id)}>
           Supprimer
         </button>
@@ -149,7 +148,28 @@ const PostWrite = () => {
         <div className="box-img">
           <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
         </div>
-        <p className="article-write"> {article.text}</p>
+        
+        {isModifying ? (
+          <div className="btn-modif3">
+            <p className="article-write">
+              <textarea className="areaTxt2" ref={newTextArea} type="text" name="article" id="article" />
+            </p>
+            <button className="btn-post" type="submit" onClick={validText}>
+              Valider
+            </button>
+            <button className="btn-post" type="submit" onClick={() => modify(false)}>
+              Annuler
+            </button>
+          </div>
+        ) : (
+          <p className="article-write"> {article.text}</p>
+        )}
+
+        {(user.pseudo === comment.pseudo || user.isAdmin) && (
+          <button className="btn-post-modif" type="submit" onClick={() => modify(true)}>
+            Modifier le texte
+          </button>
+        )}
         <div id="comment">
           <div className="block-comment">
             <textarea className="areaTxt" type="text" name="commentaire" id="commentaire" onChange={(e) => setComment(e.target.value)} value={comment} />
