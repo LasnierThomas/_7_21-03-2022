@@ -77,7 +77,7 @@ const NewPost = () => {
                   inputFile.current?.click();
                 }}
               >
-                <img className="img-dl" src={URL.createObjectURL(selectedImage)} alt="" />
+                <img className="img-dl" src={URL.createObjectURL(selectedImage)} alt="le fichier que vous allez choisir" />
               </div>
             )}
           </div>

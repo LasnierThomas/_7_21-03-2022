@@ -4,7 +4,7 @@
 
 .first{
   display:none;
-  visibility: none;
+  
   
 }
 
@@ -39,10 +39,6 @@
     
   }
 
-
-  /* #block-img{
-    display: none;
-  } */
 
   .new {
     display: flex;

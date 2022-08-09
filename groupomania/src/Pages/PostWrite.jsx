@@ -146,7 +146,7 @@ const PostWrite = () => {
       <div className="all-comment">
         <h3 className="title-write">{article.title}</h3>
         <div className="box-img">
-          <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt={`img`}></img>
+          <img className="img-write" src={`${process.env.REACT_APP_API_URL}images/${article.imageUrl}`} alt='le fichier que lutilisateur à séléctionné'></img>
         </div>
         
         {isModifying ? (
