@@ -97,14 +97,16 @@
 }
 .box-img{
   display: flex;
-  width: 100%;
+  width: 60%;
+  object-fit: cover;
+  
 }
 .img-write{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     border-radius: 30px;
-    object-fit: cover;
+    
     
 }
 

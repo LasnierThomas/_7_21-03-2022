@@ -165,7 +165,7 @@ const PostWrite = () => {
           <p className="article-write"> {article.text}</p>
         )}
 
-        {(user.pseudo === comment.pseudo || user.isAdmin) && (
+        {(user.pseudo === article.pseudo || user.isAdmin) && (
           <button className="btn-post-modif" type="submit" onClick={() => modify(true)}>
             Modifier le texte
           </button>
