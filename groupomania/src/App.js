@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { ArticlesContext, UserContext } from "./Components/AppContext";
 import Routes from "./Components/Routes/index";
-// import cookie from 'js-cookie';
+
 
 const App = () => {
   const [user, setUser] = useState(null);

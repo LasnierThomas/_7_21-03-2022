@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-export const Comment = ({ user, comment, modifyComment, deleteComment }) => {
+export const Comment = ({ user, comment, deleteComment }) => {
   const [isModifying, modify] = useState(false);
   const newCommentArea = useRef(null);
 

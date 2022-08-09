@@ -6,14 +6,14 @@ import '../Styles/Acceuil.css';
 const Acceuil = () => {
     const navigate = useNavigate();
     let handleClick = () => {
-        navigate('/detente');
-    }
+      navigate("/detente");
+    };
     const handleClick1 = () => {
-        navigate('/article');
-    }
+      navigate("/article");
+    };
     const handleClick2 = () => {
-        navigate('/chat');
-    }
+      navigate("/chat");
+    };
 
     return (
         <div className='block-parent'>

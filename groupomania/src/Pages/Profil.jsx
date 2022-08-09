@@ -9,19 +9,18 @@ const Profil = () => {
     console.log(user);
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate('/Acceuil');
-    }
-
+      navigate("/Acceuil");
+    };
 
     const deleteUser = (userId) => {
-        fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
-            method: 'DELETE'
-        }).then((result) => {
-            result.json().then((resp) => {
-                console.warn(resp)
-            })
-        })
-    }
+      fetch(`${process.env.REACT_APP_API_URL}api/auth/${userId}`, {
+        method: "DELETE",
+      }).then((result) => {
+        result.json().then((resp) => {
+          console.warn(resp);
+        });
+      });
+    };
     console.log(user);
     return (
         <div className='block-parent'>

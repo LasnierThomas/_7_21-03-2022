@@ -131,7 +131,7 @@ const PostWrite = () => {
         // j'enleve le commentaire de la ui
         setComments(comments.filter((comment) => comment.id === commentId));
       })
-      .error((error) => {});
+      .error((error) => { });
   };
 
   if (!article) return <div></div>;

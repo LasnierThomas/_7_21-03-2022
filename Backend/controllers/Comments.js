@@ -36,7 +36,7 @@ exports.deleteComments = (req, res, next) => {
   if (!connectedUser) {
     return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
-  
+
   // 1/ Je récupère le commentaire => je peux savoir quel est l'id user
   connection.query(`SELECT * FROM Comment WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
     console.log(error);
@@ -51,15 +51,14 @@ exports.deleteComments = (req, res, next) => {
     console.debug(connectedUser);
     if (connectedUser.isAdmin) {
       canDeleteComment = true;
-    }
-    else if (connectedUser.pseudo === createdBy) {
+    } else if (connectedUser.pseudo === createdBy) {
       canDeleteComment = true;
     }
 
     // 3/ Si c'est ok, je supprime le commentaire, sinon je refuse la suppression
-    
-      if (canDeleteComment) {
-        // c'est ok!
+
+    if (canDeleteComment) {
+      // c'est ok!
       connection.query(`DELETE FROM Comment WHERE id=${connection.escape(req.params.id)};`, function (error, results, fields) {
         console.log(error);
         if (results) {
@@ -68,11 +67,10 @@ exports.deleteComments = (req, res, next) => {
           res.status(500).json({ error: "le commentaire n'a pas pu être supprimé" });
         }
       });
-      } else {
-        // c'est pas ok !
-        res.status(400).json({ error: "Utilisateur non autoriser" });
+    } else {
+      // c'est pas ok !
+      res.status(400).json({ error: "Utilisateur non autoriser" });
     }
-
   });
 };
 
@@ -94,8 +92,7 @@ exports.editComments = (req, res, next) => {
     let canModifyComment = false;
     if (connectedUser.isAdmin) {
       canModifyComment = true;
-    }
-    else if (connectedUser.pseudo === createdBy) {
+    } else if (connectedUser.pseudo === createdBy) {
       canModifyComment = true;
     }
 
@@ -113,6 +110,5 @@ exports.editComments = (req, res, next) => {
       // c'est pas ok !
       res.status(400).json({ error: "Utilisateur non autoriser" });
     }
-
   });
-}
+};

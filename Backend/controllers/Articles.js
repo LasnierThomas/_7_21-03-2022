@@ -118,14 +118,14 @@ exports.deleteArticles = (req, res, next) => {
     }
 
     if (canDeleteArticle) {
-      // const imageUrl = req.file.filename;
       connection.query(`DELETE FROM Article WHERE id=${connection.escape(req.params.id)} ;`, function (error, results, fields) {
-        console.log(error);
-        // const filename = imageUrl.split("/images/")[1];
-        // fs.unlink(`images/${filename}`, () => {
         if (results) {
+          const imageUrl = article.imageUrl;
+          const imagePath = `images/${imageUrl}`;
+          fs.unlink(imagePath, () => {});
           res.status(200).json({ message: "Article supprimé" });
         } else {
+          console.log(error);
           res.status(500).json({ error: "l'article n'a pas pu être supprimé" });
         }
       });

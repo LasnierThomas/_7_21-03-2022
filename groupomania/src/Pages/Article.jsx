@@ -33,7 +33,7 @@ const Article = () => {
       },
     })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         articleContext.setArticles(res.data);
       })
       .catch((err) => {

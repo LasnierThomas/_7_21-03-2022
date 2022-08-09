@@ -56,7 +56,7 @@
 
 .submit:hover {
   transition: all 0s ease-in-out;
-  transform: scale(1.);
+  transform: scale(1);
   background-color: white;
   border: black 1px solid;
   opacity: 0.9;
