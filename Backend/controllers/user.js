@@ -5,17 +5,20 @@ const connection = require('../sql/dbconnection');
 
 exports.signup = (req, res, next) => {
 
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            connection.query(`INSERT INTO User (email, pseudo, password) VALUES (${connection.escape(req.body.email)}, ${connection.escape(req.body.pseudo)}, ${connection.escape(hash)})`,
-                function (error, results, fields) {
-                    if (!results || results.length == 0) {
-                        return res.status(401).json({ error: "L'utilisateur n'a pas pu être créé" });
-                    }
-                    res.status(201).json(JSON.stringify(results))
-                });
-        })
-        .catch(error => res.status(400).json({ error }));
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      connection.query(
+        `INSERT INTO User (email, pseudo, password) VALUES (${connection.escape(req.body.email)}, ${connection.escape(req.body.pseudo)}, ${connection.escape(hash)})`,
+        function (error, results, fields) {
+          if (!results || results.length == 0) {
+            return res.status(401).json({ error: "L'utilisateur n'a pas pu être créé" });
+          }
+          res.status(201).json(JSON.stringify(results));
+        }
+      );
+    })
+    .catch((error) => res.status(400).json({ error }));
 };
 
 

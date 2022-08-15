@@ -1,6 +1,4 @@
-// const { stringify } = require('querystring');
 const connection = require('../sql/dbconnection');
-
 
 
 exports.getAllComments = (req, res, next) => {

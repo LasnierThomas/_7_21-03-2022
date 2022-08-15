@@ -4,7 +4,8 @@ export const UserContext = createContext({
     pseudo: 'Toto3',
     email: 'toto3@gmail.com',
     token: 'token',
-    userID: 'userID',
+  userID: 'userID',
+    password: 'Azerty',
     setUser: (user) => { }
 });
 

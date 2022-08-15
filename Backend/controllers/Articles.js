@@ -1,7 +1,5 @@
 const fs = require('fs');
-// const { stringify } = require('querystring');
 const connection = require('../sql/dbconnection');
-
 
 
 exports.getAllArticles = (req, res, next) => {
@@ -75,7 +73,7 @@ exports.editArticles = (req, res, next) => {
     }
     const article = results[0];
     const createdBy = article.pseudo;
-
+    // 2/ Je regarde si mon utilisateur actuel est admin OU si c'est le créateur du commentaire
     let canModifyArticle = false;
     if (connectedUser.isAdmin) {
       canModifyArticle = true;

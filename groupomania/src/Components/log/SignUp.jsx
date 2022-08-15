@@ -18,10 +18,11 @@ const SignUp = () => {
     const controlPasswordError = document.querySelector(".controlPassword.error");
 
     controlPasswordError.innerHTML = "";
-
+    
     if (password !== controlPassword) {
       controlPasswordError.innerHTML = "le mot de passe ne correspond pas";
-    } else {
+    }
+    else {
       await axios({
         method: "post",
         url: `${process.env.REACT_APP_API_URL}api/auth/signup`,
